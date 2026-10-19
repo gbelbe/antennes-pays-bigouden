@@ -4,7 +4,7 @@ Les moyens « évoqués » sont repérés par expression régulière (taxo_spec.
 import csv,sys,os,re,html,json,unicodedata,collections
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 import taxo_spec as T
-from lectures_map import LU,PARTIEL
+from lectures_map import LU,PARTIEL,DATES
 repo=sys.argv[1]
 def strip(s): return "".join(c for c in unicodedata.normalize("NFKD",s) if not unicodedata.combining(c))
 def slug(s): return re.sub(r"[^a-z0-9]+","-",strip(s).lower()).strip("-")
@@ -211,8 +211,9 @@ for r in rows:
     sol=x["solution"]; res=resultat(sol,stade,x["issue"],niveau,txt[-1500:])
     eff=effet(x["issue"],plaig,sol)
     num=x["num"]
-    ret,eca,tr=LU.get(num) or PARTIEL.get(num) or ([],[],None)
-    lu=num in LU; partiel=num in PARTIEL
+    _ok=(num not in DATES) or (r["date_lecture"] in DATES[num])
+    ret,eca,tr=((LU.get(num) or PARTIEL.get(num)) if _ok else None) or ([],[],None)
+    lu=(num in LU) and _ok; partiel=(num in PARTIEL) and _ok
     ecd=[]
     if not lu and not partiel and niveau in ("TA","CAA") and "r-rejet-fond" in res and "r-irrecevable" not in res and stade=="fond":
         mt=motifs(txt)

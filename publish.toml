@@ -36,6 +36,7 @@ publish = [
   "sources/covisibilite_manoir_trevilit.jpg",
   "sources/parcelle_YX26_ortho.jpg",
   "requetes.sparql",
+  "rapports/moyens-kersalous.pdf",
 ]
 
 [maps]

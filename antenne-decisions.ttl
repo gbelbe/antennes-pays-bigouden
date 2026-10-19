@@ -16593,13 +16593,12 @@ dos:dec-ta-2205315-20260114 a owl:NamedIndividual, ant:Jurisprudence ;
     ant:resultat skt:r-rejet-fond ;
     ant:effetProjet skt:e-bloque ;
     ant:moyenEvoque skt:m-abf, skt:m-abords-mh-pc, skt:m-covisibilite, skt:m-delai-recours, skt:m-fraude, skt:m-regle-cloture, skt:m-regle-hauteur, skt:m-regle-plantations, skt:m-zone-agri-naturelle ;
-    ant:moyenRetenu skt:m-zone-agri-naturelle, skt:m-acces ;
+    ant:moyenEcarteDeduit skt:m-abf, skt:m-abords-mh-pc, skt:m-covisibilite, skt:m-delai-recours, skt:m-fraude, skt:m-regle-cloture, skt:m-regle-hauteur, skt:m-regle-plantations, skt:m-zone-agri-naturelle ;
     ant:contexteSite skt:c-rural, skt:c-abords-mh, skt:c-pylone ;
     ant:mecanismeProcedural skt:p-regularisation, skt:p-frais ;
-    ant:transferabilite skt:t-verifier ;
     ant:proximiteKersalous skt:x-proche ;
-    ant:niveauLecture skt:l-partiel ;
-    ant:scoreProximite 70 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +5 recours d'opérateur; +15 zone A ou N; +10 abords de monument ou covisibilité; +10 décision lue" ;
+    ant:niveauLecture skt:l-auto ;
+    ant:scoreProximite 60 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +5 recours d'opérateur; +15 zone A ou N; +10 abords de monument ou covisibilité" ;
     ant:avocatOpenData "KATAM  AVOCATS" ;
     prov:wasDerivedFrom src:dec-ta-2205315-20260114 ; ant:verifieSurSource false .
 
@@ -18238,13 +18237,11 @@ dos:dec-ta-2201994-20251210 a owl:NamedIndividual, ant:Jurisprudence ;
     ant:resultat skt:r-rejet-fond, skt:r-irrecevable ;
     ant:effetProjet skt:e-maintenu ;
     ant:moyenEvoque skt:m-bruit, skt:m-delai-recours, skt:m-dossier-incomplet, skt:m-ebc, skt:m-emprise-locaux, skt:m-interet-agir, skt:m-notification, skt:m-pieces-contradictoires, skt:m-qualite-association, skt:m-zone-agri-naturelle ;
-    ant:moyenRetenu skt:m-abords-mh-pc ;
     ant:contexteSite skt:c-rural, skt:c-pylone ;
     ant:mecanismeProcedural skt:p-frais ;
-    ant:transferabilite skt:t-verifier ;
     ant:proximiteKersalous skt:x-proche ;
-    ant:niveauLecture skt:l-partiel ;
-    ant:scoreProximite 60 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +15 zone A ou N; +5 zone humide ou boisement évoqués; +10 décision lue" ;
+    ant:niveauLecture skt:l-auto ;
+    ant:scoreProximite 50 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +15 zone A ou N; +5 zone humide ou boisement évoqués" ;
     ant:avocatAdverse dos:avocat-bon-julien ;
     ant:avocatOpenData "BON-JULIEN" ;
     prov:wasDerivedFrom src:dec-ta-2201994-20251210 ; ant:verifieSurSource false .
@@ -38414,13 +38411,12 @@ dos:dec-ta-2306057-20250114 a owl:NamedIndividual, ant:Jurisprudence ;
     ant:resultat skt:r-rejet-fond ;
     ant:effetProjet skt:e-maintenu ;
     ant:moyenEvoque skt:m-acces, skt:m-aerodrome, skt:m-covisibilite, skt:m-desserte, skt:m-dossier-incomplet, skt:m-emprise-locaux, skt:m-incendie, skt:m-interet-agir, skt:m-natura, skt:m-ondes, skt:m-patrimoine, skt:m-paysage, skt:m-pieces-contradictoires, skt:m-r111-2, skt:m-regle-aspect, skt:m-regle-cloture, skt:m-zone-agri-naturelle, skt:m-zone-urbaine ;
-    ant:moyenRetenu skt:m-regle-cloture ;
+    ant:moyenEcarteDeduit skt:m-acces, skt:m-aerodrome, skt:m-covisibilite, skt:m-desserte, skt:m-dossier-incomplet, skt:m-emprise-locaux, skt:m-incendie, skt:m-natura, skt:m-ondes, skt:m-patrimoine, skt:m-paysage, skt:m-pieces-contradictoires, skt:m-r111-2, skt:m-regle-aspect, skt:m-zone-agri-naturelle, skt:m-zone-urbaine ;
     ant:contexteSite skt:c-rural, skt:c-site-protege, skt:c-pylone, skt:c-pylone-treillis, skt:c-toiture ;
     ant:mecanismeProcedural skt:p-frais, skt:p-cristallisation ;
-    ant:transferabilite skt:t-verifier ;
     ant:proximiteKersalous skt:x-proche ;
-    ant:niveauLecture skt:l-partiel ;
-    ant:scoreProximite 65 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +15 zone A ou N; +10 abords de monument ou covisibilité; +10 décision lue" ;
+    ant:niveauLecture skt:l-auto ;
+    ant:scoreProximite 55 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +15 zone A ou N; +10 abords de monument ou covisibilité" ;
     ant:avocatRequerant dos:avocat-samourcachian ;
     ant:avocatAdverse dos:avocat-bon-julien ;
     ant:avocatOpenData "SAMOURCACHIAN" ;
@@ -43981,14 +43977,12 @@ dos:dec-ta-2103771-20241015 a owl:NamedIndividual, ant:Jurisprudence ;
     ant:resultat skt:r-rejet-fond ;
     ant:effetProjet skt:e-maintenu ;
     ant:moyenEvoque skt:m-competence, skt:m-regle-cloture ;
-    ant:moyenRetenu skt:m-competence ;
-    ant:moyenEcarte skt:m-regle-plantations, skt:m-ondes ;
+    ant:moyenEcarteDeduit skt:m-competence, skt:m-regle-cloture ;
     ant:contexteSite skt:c-pylone ;
     ant:mecanismeProcedural skt:p-regularisation, skt:p-frais ;
-    ant:transferabilite skt:t-verifier ;
     ant:proximiteKersalous skt:x-proche ;
-    ant:niveauLecture skt:l-partiel ;
-    ant:scoreProximite 65 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +20 riverains ou association contre le projet; +10 décision lue; +5 ressort de la CAA de Nantes" ;
+    ant:niveauLecture skt:l-auto ;
+    ant:scoreProximite 55 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +20 riverains ou association contre le projet; +5 ressort de la CAA de Nantes" ;
     ant:avocatOpenData "EARTH AVOCATS" ;
     prov:wasDerivedFrom src:dec-ta-2103771-20241015 ; ant:verifieSurSource false .
 
@@ -59840,12 +59834,10 @@ dos:dec-ta-2101446-20240131 a owl:NamedIndividual, ant:Jurisprudence ;
     ant:acteAttaque skt:a-non-opposition ;
     ant:typeRequerant skt:q-riverains ;
     ant:effetProjet skt:e-indetermine ;
-    ant:moyenRetenu skt:m-rnu, skt:m-paysage ;
     ant:mecanismeProcedural skt:p-regularisation, skt:p-cristallisation ;
-    ant:transferabilite skt:t-verifier ;
     ant:proximiteKersalous skt:x-eloigne ;
-    ant:niveauLecture skt:l-partiel ;
-    ant:scoreProximite 40 ; ant:detailScore "+10 acte d'urbanisme (DP ou permis); +20 riverains ou association contre le projet; +10 décision lue" ;
+    ant:niveauLecture skt:l-auto ;
+    ant:scoreProximite 30 ; ant:detailScore "+10 acte d'urbanisme (DP ou permis); +20 riverains ou association contre le projet" ;
     ant:avocatRequerant dos:avocat-lopes ;
     ant:avocatOpenData "LOPES" ;
     prov:wasDerivedFrom src:dec-ta-2101446-20240131 ; ant:verifieSurSource false .
@@ -64968,14 +64960,11 @@ dos:dec-ta-1909132-20231030 a owl:NamedIndividual, ant:Jurisprudence ;
     ant:resultat skt:r-annulation-totale ;
     ant:effetProjet skt:e-indetermine ;
     ant:moyenEvoque skt:m-dossier-incomplet, skt:m-retrait, skt:m-zone-urbaine ;
-    ant:moyenRetenu skt:m-desserte, skt:m-regle-aspect ;
-    ant:moyenEcarte skt:m-dim ;
     ant:contexteSite skt:c-urbain, skt:c-pylone ;
     ant:mecanismeProcedural skt:p-regularisation, skt:p-frais ;
-    ant:transferabilite skt:t-verifier ;
     ant:proximiteKersalous skt:x-eloigne ;
-    ant:niveauLecture skt:l-partiel ;
-    ant:scoreProximite 35 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); -5 zone urbaine; +10 décision lue" ;
+    ant:niveauLecture skt:l-auto ;
+    ant:scoreProximite 25 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); -5 zone urbaine" ;
     ant:avocatOpenData "DLA PIPER UK LLP" ;
     prov:wasDerivedFrom src:dec-ta-1909132-20231030 ; ant:verifieSurSource false .
 
@@ -71055,13 +71044,10 @@ dos:dec-ta-1907380-20230619 a owl:NamedIndividual, ant:Jurisprudence ;
     ant:resultat skt:r-annulation-totale ;
     ant:effetProjet skt:e-indetermine ;
     ant:moyenEvoque skt:m-regle-cloture, skt:m-rnu ;
-    ant:moyenRetenu skt:m-rnu ;
-    ant:moyenEcarte skt:m-paysage, skt:m-dossier-incomplet ;
     ant:mecanismeProcedural skt:p-regularisation, skt:p-frais ;
-    ant:transferabilite skt:t-verifier ;
     ant:proximiteKersalous skt:x-non-pertinente ;
-    ant:niveauLecture skt:l-partiel ;
-    ant:scoreProximite 20 ; ant:detailScore "+10 acte d'urbanisme (DP ou permis); +10 décision lue" ;
+    ant:niveauLecture skt:l-auto ;
+    ant:scoreProximite 10 ; ant:detailScore "+10 acte d'urbanisme (DP ou permis)" ;
     ant:avocatOpenData "MAZEL" ;
     prov:wasDerivedFrom src:dec-ta-1907380-20230619 ; ant:verifieSurSource false .
 
@@ -73361,12 +73347,11 @@ dos:dec-ta-2304753-20230426 a owl:NamedIndividual, ant:Jurisprudence ;
     ant:resultat skt:r-annulation-partielle ;
     ant:effetProjet skt:e-debloque ;
     ant:moyenEvoque skt:m-regle-hauteur, skt:m-utilite, skt:m-zone-agri-naturelle, skt:m-zone-urbaine ;
-    ant:moyenEcarte skt:m-zone-agri-naturelle, skt:m-regle-cloture, skt:m-emprise-locaux ;
     ant:contexteSite skt:c-urbain, skt:c-rehausse ;
     ant:mecanismeProcedural skt:p-frais ;
-    ant:proximiteKersalous skt:x-eloigne ;
-    ant:niveauLecture skt:l-lu ;
-    ant:scoreProximite 25 ; ant:detailScore "+10 acte d'urbanisme (DP ou permis); +5 recours d'opérateur; -5 zone urbaine; +10 décision lue; +5 ressort de la CAA de Nantes" ;
+    ant:proximiteKersalous skt:x-non-pertinente ;
+    ant:niveauLecture skt:l-auto ;
+    ant:scoreProximite 15 ; ant:detailScore "+10 acte d'urbanisme (DP ou permis); +5 recours d'opérateur; -5 zone urbaine; +5 ressort de la CAA de Nantes" ;
     ant:avocatRequerant dos:avocat-martin ;
     prov:wasDerivedFrom src:dec-ta-2304753-20230426 ; ant:verifieSurSource false .
 
@@ -76739,13 +76724,11 @@ dos:dec-ta-2300548-20230301 a owl:NamedIndividual, ant:Jurisprudence ;
     ant:resultat skt:r-annulation-partielle ;
     ant:effetProjet skt:e-debloque ;
     ant:moyenEvoque skt:m-emprise-locaux, skt:m-mutualisation, skt:m-natura, skt:m-paysage, skt:m-retrait, skt:m-risques-naturels, skt:m-utilite ;
-    ant:moyenRetenu skt:m-littoral-urbanisation, skt:m-zone-urbaine ;
     ant:contexteSite skt:c-pylone ;
     ant:mecanismeProcedural skt:p-frais ;
-    ant:transferabilite skt:t-non-transferable ;
     ant:proximiteKersalous skt:x-eloigne ;
-    ant:niveauLecture skt:l-partiel ;
-    ant:scoreProximite 45 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +5 recours d'opérateur; +10 décision lue" ;
+    ant:niveauLecture skt:l-auto ;
+    ant:scoreProximite 35 ; ant:detailScore "+20 pylône hors toiture; +10 acte d'urbanisme (DP ou permis); +5 recours d'opérateur" ;
     ant:avocatRequerant dos:avocat-hamri ;
     prov:wasDerivedFrom src:dec-ta-2300548-20230301 ; ant:verifieSurSource false .
 

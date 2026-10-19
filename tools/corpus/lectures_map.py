@@ -159,3 +159,11 @@ PARTIEL.update({
  "24LY01298":(["m-regle-cloture"],["m-r111-2"],"t-verifier"),
  "490536":([],["m-emprise-locaux"],None),
 })
+
+# Numéros portés par plusieurs décisions (même numéro dans deux juridictions, ou arrêt avant dire droit puis arrêt final) :
+# la lecture ne s'applique qu'aux dates indiquées.
+DATES={
+ "2103771":{"2024-07-09"},"2201994":{"2024-05-21"},"2101446":{"2023-03-28"},"1907380":{"2022-12-22"},
+ "23PA02598":{"2024-11-07","2025-07-10"},"2306057":{"2026-03-02"},"2300548":{"2025-11-13"},"2304753":{"2025-06-06"},
+ "1909132":{"2023-07-03"},"2205315":{"2025-07-02"},
+}

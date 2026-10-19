@@ -219,7 +219,10 @@ async function dossier() {
       <p class="small muted" style="margin:0 0 4px">${esc(n.definition)}</p><p class="small" style="margin:0">${stat(n.stats)}</p>
       ${n.explication ? `<details class="small"><summary>En pratique</summary><p style="margin:4px 0">${esc(n.explication)}</p></details>` : ""}
       ${n.moyens.length ? n.moyens.map((id) => mCard(mById[id])).join("") : `<p class="small muted" style="margin:6px 0 0">Aucun fait ni pièce du dossier de Kersalous sur ce point à ce jour.</p>`}</div>${n.children.map((c) => node(c, depth + 1)).join("")}`;
+  const meta = await load("meta");
+  const pdf = (meta.published_files || []).includes("moyens-kersalous.pdf");
   $("#app").innerHTML = `<h1>Moyens juridiques &amp; actions</h1>
+    ${pdf ? `<p><a class="chip info" href="files/moyens-kersalous.pdf" target="_blank" rel="noopener">📄 Télécharger le rapport PDF : quels moyens plaider à Kersalous ? (21 pages)</a></p>` : ""}
     <p class="lead">Les arguments possibles contre un projet d'antenne-relais, rangés par thème selon la taxonomie du contentieux. Pour chacun : ce que disent les ${A.total.toLocaleString("fr-FR")} décisions du corpus (combien l'évoquent, l'ont retenu ou écarté) et, quand il y en a, ce que le dossier de Kersalous contient (faits, preuves, actions).</p>
     <div class="banner small">Ces chiffres sont un repère statistique, pas une prédiction. « Retenu » ne se lit que sur les ${A.lues} décisions lues, parmi lesquelles la plupart de celles où des riverains ou une association ont obtenu annulation, suspension ou sursis devant un tribunal administratif (repérées automatiquement : quelques-unes ont pu échapper au repérage) ; sur les autres décisions, un moyen « écarté » est déduit du rejet complet de la requête. Un moyen jamais retenu dans le corpus n'est pas pour autant perdu d'avance dans un cas particulier, mais il l'a presque toujours été.</div>
     <div class="toolbar">${A.groupes.map((g) => `<a class="chip info" href="#" data-g="${esc(g.id)}">${esc(g.label.replace(/ \(.*$/, ""))}</a>`).join("")}</div>
