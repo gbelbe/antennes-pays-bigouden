@@ -820,3 +820,55 @@ ant:identifiantSiteOperateur a owl:DatatypeProperty, owl:FunctionalProperty ;
     rdfs:domain ant:ProjetAntenne, ant:SupportAntenne ;
     rdfs:range xsd:string ;
     note:note "Code interne de l'opérateur (ex. T18D84 pour Bouygues Telecom). Distinct du numéro de dossier d'urbanisme et de l'identifiant ANFR, qui n'existe qu'après déclaration du support." .
+
+# ── Zonage du PLU et bandes de règlement (antenne-reglement.ttl) ─────────────
+
+ant:distanceProjet a owl:DatatypeProperty ;
+    rdfs:label "distance au pylône (m)"@fr ;
+    rdfs:domain ant:ObjetGeographique ;
+    rdfs:range xsd:decimal ;
+    note:note "Distance du bord de l'entité à la position du pylône donnée par le dossier d'information de l'opérateur (dos:position-pylone-operateur), au mètre près. Zéro si le pylône est dans l'entité." .
+
+ant:rayonAffichage a owl:DatatypeProperty ;
+    rdfs:label "rayon ou largeur de la bande (m)"@fr ;
+    rdfs:domain ant:ZoneReglementaire ;
+    rdfs:range xsd:decimal ;
+    note:note "Pour une bande de règlement dérivée : la distance réglementaire qui a servi à la tracer (recul, bande inconstructible, rayon)." .
+
+ant:geometrieDerivee a owl:DatatypeProperty, owl:FunctionalProperty ;
+    rdfs:label "géométrie calculée"@fr ;
+    rdfs:domain ant:ZoneReglementaire ;
+    rdfs:range xsd:boolean ;
+    note:note "Vrai si la géométrie n'est pas publiée telle quelle par une source officielle mais calculée à partir d'une règle (tampon autour d'une limite, d'une route ou d'un point)." .
+
+ant:origineGpu a owl:DatatypeProperty ;
+    rdfs:label "identifiant du document d'urbanisme (GPU)"@fr ;
+    rdfs:domain ant:ZoneReglementaire ;
+    rdfs:range xsd:string .
+
+ant:reglementeZone a owl:ObjectProperty ;
+    rdfs:label "réglemente la zone"@fr ;
+    rdfs:domain ant:RegleDeZone ;
+    rdfs:range ant:ZoneReglementaire ;
+    note:note "Relie une règle du règlement écrit aux emprises sur lesquelles elle s'applique ou qu'elle permet de dessiner (zone, prescription, bande)." .
+
+ant:applicabiliteAuProjet a owl:DatatypeProperty ;
+    rdfs:label "applicabilité au projet"@fr ;
+    rdfs:domain ant:RegleDeZone ;
+    rdfs:range xsd:string ;
+    note:note "Trois valeurs : « oui » (la règle vise ce projet), « non » (elle ne l'atteint pas), « a-verifier » (dépend d'une pièce du dossier ou d'une qualification juridique). Lecture du dossier, pas avis juridique." .
+
+ant:articlePlu a owl:DatatypeProperty ;
+    rdfs:label "article du règlement du PLU"@fr ;
+    rdfs:domain ant:RegleDeZone ;
+    rdfs:range xsd:string .
+
+ant:valeurLimite a owl:DatatypeProperty ;
+    rdfs:label "valeur limite de la règle"@fr ;
+    rdfs:domain ant:RegleDeZone ;
+    rdfs:range xsd:decimal .
+
+ant:uniteLimite a owl:DatatypeProperty ;
+    rdfs:label "unité de la valeur limite"@fr ;
+    rdfs:domain ant:RegleDeZone ;
+    rdfs:range xsd:string .

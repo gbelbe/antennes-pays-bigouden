@@ -1,0 +1,12 @@
+{
+ "date": "2026-10-19",
+ "centre": [
+  -4.274491,
+  47.874985
+ ],
+ "rayon_m": 800,
+ "sources": [
+  "https://apicarto.ign.fr/api/gpu/*",
+  "https://data.geopf.fr/wfs/ows (BDTOPO_V3:troncon_de_route)"
+ ]
+}

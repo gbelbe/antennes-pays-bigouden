@@ -597,3 +597,34 @@ skt:Proprietaire a skos:ConceptScheme ;
     skos:prefLabel "Propriétaires de supports d'antennes (registre ANFR) — Phoenix et Bouygues"@fr ;
     skos:definition "Valeurs du champ TPO_ID du registre ANFR retenues pour le dossier : Phoenix France Infrastructures (73) et Bouygues (4). Les autres propriétaires ne sont volontairement pas modélisés."@fr ;
     note:note "Source : fichier TPO_ID.txt de l'observatoire ANFR (lu le 2026-10-15), voir src:anfr-sup-proprietaire. Périmètre restreint le 2026-10-15 : pas de comparaison avec les autres sociétés de pylônes." .
+
+skt:cours-eau a skos:Concept,
+        ant:TypeDeZone ;
+    rdfs:label "Cours d'eau protégé"@fr ;
+    skos:inScheme skt:Dossier ;
+    skos:prefLabel "Cours d'eau protégé (R.151-43 4°)"@fr ;
+    skos:scopeNote "Aucune construction à moins de 10 m des berges ; exhaussements et affouillements interdits."@fr ;
+    skos:topConceptOf skt:Dossier ;
+    ant:axe skt:protection-env .
+
+skt:element-patrimoine-local a skos:Concept,
+        ant:TypeDeZone ;
+    rdfs:label "Élément de patrimoine local"@fr ;
+    skos:inScheme skt:Dossier ;
+    skos:prefLabel "Élément de patrimoine local protégé"@fr ;
+    skos:scopeNote "Élément bâti ou naturel repéré par le PLU (puits, voûte, mur…)."@fr ;
+    skos:topConceptOf skt:Dossier ;
+    ant:axe skt:protection-patrimoine .
+
+skt:bande-de-regle a skos:Concept,
+        ant:TypeDeZone ;
+    rdfs:label "Bande de règlement"@fr ;
+    skos:inScheme skt:Dossier ;
+    skos:prefLabel "Bande de règlement (recul, distance, rayon)"@fr ;
+    skos:scopeNote "Emprise calculée à partir d'une règle du PLU (recul, bande inconstructible) ou d'un rayon indicatif ; ce n'est pas un zonage publié par une source officielle."@fr ;
+    skos:topConceptOf skt:Dossier ;
+    ant:axe skt:zonage .
+
+skt:Dossier skos:hasTopConcept skt:cours-eau, skt:element-patrimoine-local, skt:bande-de-regle .
+
+skt:TypeDeZone skos:member skt:cours-eau, skt:element-patrimoine-local, skt:bande-de-regle .

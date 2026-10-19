@@ -1,0 +1,715 @@
+@prefix ant:  <https://kersalous.bzh/ontology/antenne#> .
+@prefix dos:  <https://kersalous.bzh/dossier/> .
+@prefix skt:  <https://kersalous.bzh/taxonomie/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix geo:  <http://www.opengis.net/ont/geosparql#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix src:  <https://kersalous.bzh/provenance/> .
+@prefix note: <https://example.org/ontology/kai-internal-knowledge#> .
+
+# Fichier généré par tools/plu_gpu.py (ne pas modifier à la main).
+# Sources : Géoportail de l'urbanisme (API Carto IGN), BD TOPO (WFS Géoplateforme), règlement écrit du PLU.
+# Les géométries sont coupées à 550 m autour du pylône ; les distances sont des distances géodésiques approchées
+# (projection locale), au mètre près.
+
+<https://kersalous.bzh/reglement> a owl:Ontology ;
+    rdfs:label "Antenne — zonage et règlement du PLU autour du pylône"@fr .
+
+# ═══ Position du pylône selon le dossier d'information ═══
+
+dos:position-pylone-operateur a owl:NamedIndividual, ant:ObjetGeographique ;
+    rdfs:label "Position du pylône selon le dossier d'information de l'opérateur"@fr ;
+    ant:dansLieu dos:lieudit-kerfilin-sud ;
+    ant:distanceParcelle 4.4 ;
+    geo:asWKT "POINT(-4.273649 47.875099)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:dim-bouygues ;
+    note:note "Coordonnées Lambert II étendu du dossier d'information (X 106 077, Y 2 340 312) converties en WGS84 (voir dos:m-position-operateur ; quelques mètres d'incertitude). **Toutes les distances au pylône de ce fichier partent de ce point.** dos:projet-pylone porte désormais le même point (il était auparavant au milieu de la parcelle, à 63 m)." .
+
+
+# ═══ Zones et prescriptions (Géoportail de l'urbanisme) ═══
+
+dos:zone-plu-a ant:distanceProjet 0 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "MULTIPOLYGON (((-4.275561 47.879257, -4.275508 47.879276, -4.275288 47.879306, -4.274979 47.879325, -4.274151 47.879149, -4.273624 47.87897, -4.273315 47.878777, -4.273259 47.878387, -4.273168 47.877882, -4.272544 47.878012, -4.271685 47.87782, -4.271698 47.877793, -4.271 47.877657, -4.270143 47.876667, -4.269998 47.876691, -4.269776 47.87676, -4.269346 47.876862, -4.269261 47.876819, -4.269111 47.876833, -4.268979 47.876533, -4.268281 47.876596, -4.268304 47.876852, -4.268199 47.876875, -4.268027 47.876897, -4.26792 47.876903, -4.267837 47.876974, -4.266786 47.876902, -4.266714 47.876775, -4.2666 47.876543, -4.266504 47.876308, -4.266425 47.87607, -4.266363 47.875829, -4.266319 47.875587, -4.266292 47.875343, -4.266283 47.875099, -4.266292 47.874855, -4.266319 47.874611, -4.266363 47.874369, -4.266425 47.874128, -4.266504 47.87389, -4.2666 47.873655, -4.266739 47.873379, -4.266844 47.873615, -4.266932 47.873603, -4.26705 47.873628, -4.267024 47.874149, -4.267679 47.874307, -4.268423 47.874426, -4.268412 47.874579, -4.268839 47.874605, -4.269411 47.874689, -4.270372 47.874628, -4.270852 47.874365, -4.271511 47.87419, -4.271682 47.874126, -4.272161 47.874011, -4.272283 47.874217, -4.273878 47.873786, -4.27392 47.873814, -4.274366 47.874164, -4.274935 47.87464, -4.274951 47.874677, -4.275156 47.874955, -4.275308 47.875279, -4.27534 47.875604, -4.275304 47.875673, -4.275325 47.875886, -4.275347 47.876306, -4.275399 47.876402, -4.275381 47.87643, -4.275824 47.877115, -4.275836 47.877183, -4.275833 47.877273, -4.275776 47.87768, -4.275773 47.877765, -4.275881 47.877892, -4.275844 47.877915, -4.275988 47.878059, -4.275951 47.878092, -4.276138 47.878405, -4.276117 47.878411, -4.2762 47.87854, -4.276181 47.878545, -4.276169 47.878906, -4.276182 47.879054, -4.276222 47.879237, -4.275963 47.879273, -4.275706 47.879279, -4.275561 47.879257)), ((-4.269611 47.871354, -4.268858 47.871891, -4.269107 47.872313, -4.269354 47.872707, -4.268835 47.872861, -4.267349 47.873019, -4.267292 47.872919, -4.266962 47.873015, -4.267153 47.872754, -4.267331 47.872541, -4.267524 47.872335, -4.267733 47.872135, -4.267955 47.871943, -4.268191 47.871758, -4.26844 47.871581, -4.268702 47.871412, -4.268976 47.871253, -4.269273 47.871097, -4.269611 47.871354)))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 .
+
+dos:gpu-29174-haie-talus-1 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 14 ;
+    ant:distanceParcelle 7 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.274935 47.87464, -4.274011 47.874909, -4.273599 47.874973, -4.272799 47.875185, -4.272773 47.875136)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 14 m du pylône et 7 m de la parcelle." .
+
+dos:haie-sud ant:distanceProjet 22 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 .
+
+dos:gpu-29174-haie-talus-3 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 26 ;
+    ant:distanceParcelle 8 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.273526 47.875323, -4.273705 47.87607)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 26 m du pylône et 8 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-4 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 66 ;
+    ant:distanceParcelle 59 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.272773 47.875136, -4.272283 47.874217)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 66 m du pylône et 59 m de la parcelle." .
+
+dos:zone-humide-voisine ant:distanceProjet 76 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 .
+
+dos:gpu-29252-zone-ub-1 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone Ub — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:zone-U ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 106 ;
+    ant:distanceParcelle 0 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POLYGON ((-4.279781 47.873042, -4.279283 47.873186, -4.279563 47.873541, -4.278374 47.874067, -4.278285 47.873974, -4.277336 47.874363, -4.276859 47.874514, -4.276793 47.874443, -4.275968 47.874718, -4.276109 47.874966, -4.275295 47.875285, -4.275293 47.87526, -4.275185 47.875032, -4.275113 47.874854, -4.274918 47.874648, -4.274593 47.874353, -4.275408 47.874194, -4.275319 47.874042, -4.276031 47.873839, -4.276182 47.874185, -4.277869 47.873659, -4.279545 47.872197, -4.279558 47.872217, -4.279663 47.872608, -4.279824 47.87302, -4.279781 47.873042))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Zone d'habitat, densité moyenne. Zone du PLU 29252_PLU_20220204 (partition DU_29252), à 106 m du pylône." .
+
+dos:gpu-29174-haie-talus-5 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 107 ;
+    ant:distanceParcelle 8 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.274935 47.87464, -4.274366 47.874164, -4.273878 47.873786)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 107 m du pylône et 8 m de la parcelle." .
+
+dos:haie-nord ant:distanceProjet 108 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 .
+
+dos:gpu-29252-zone-n-1 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone N — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:zone-N ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 108 ;
+    ant:distanceParcelle 46 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POLYGON ((-4.27504 47.871542, -4.275113 47.871706, -4.274654 47.871881, -4.274951 47.872572, -4.275414 47.872412, -4.276031 47.873839, -4.275319 47.874042, -4.275408 47.874194, -4.274593 47.874353, -4.274329 47.874129, -4.274197 47.874027, -4.273571 47.873581, -4.273543 47.8736, -4.272564 47.873025, -4.272607 47.873, -4.272396 47.872899, -4.271812 47.872564, -4.271474 47.872325, -4.271404 47.872262, -4.271128 47.872068, -4.270839 47.871887, -4.270572 47.871683, -4.270344 47.871537, -4.269979 47.871376, -4.269837 47.871292, -4.26975 47.871256, -4.269773 47.871242, -4.269877 47.871253, -4.270225 47.871095, -4.270299 47.871161, -4.271298 47.870655, -4.271717 47.870474, -4.271743 47.870416, -4.271778 47.870404, -4.271821 47.870461, -4.271894 47.870594, -4.271967 47.870768, -4.271982 47.870857, -4.272041 47.870853, -4.274423 47.870196, -4.274755 47.870944, -4.27479 47.871044, -4.275023 47.870969, -4.275341 47.870899, -4.275914 47.870788, -4.276028 47.870769, -4.276028 47.870829, -4.276452 47.870735, -4.276882 47.87063, -4.277021 47.870677, -4.277059 47.870761, -4.27504 47.871542))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Zone naturelle à protéger. Zone du PLU 29252_PLU_20220204 (partition DU_29252), à 108 m du pylône." .
+
+dos:ebc-voisin ant:distanceProjet 125 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 .
+
+dos:gpu-29252-zone-n-2 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone N — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:zone-N ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 125 ;
+    ant:distanceParcelle 33 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POLYGON ((-4.279489 47.877201, -4.279318 47.877161, -4.279039 47.877142, -4.278769 47.877136, -4.278648 47.877145, -4.278561 47.877159, -4.278261 47.877235, -4.277747 47.87628, -4.277166 47.876387, -4.277006 47.876407, -4.276962 47.876325, -4.276603 47.876379, -4.276195 47.876411, -4.275456 47.876564, -4.275354 47.876399, -4.275304 47.876159, -4.275321 47.876078, -4.275332 47.875903, -4.275315 47.875771, -4.275292 47.875683, -4.275309 47.875638, -4.275342 47.875591, -4.275318 47.875503, -4.275295 47.875285, -4.276109 47.874966, -4.275968 47.874718, -4.276793 47.874443, -4.276859 47.874514, -4.277336 47.874363, -4.278285 47.873974, -4.278374 47.874067, -4.279563 47.873541, -4.279283 47.873186, -4.279781 47.873042, -4.279824 47.87302, -4.279924 47.873239, -4.280144 47.873623, -4.280341 47.873671, -4.280584 47.873715, -4.279282 47.874039, -4.2796 47.874694, -4.279387 47.874743, -4.279401 47.874811, -4.279434 47.87518, -4.27951 47.875336, -4.279552 47.875455, -4.279683 47.875656, -4.279736 47.875704, -4.279725 47.8756, -4.279843 47.875539, -4.280047 47.875463, -4.280747 47.875344, -4.280969 47.875324, -4.281007 47.875325, -4.281006 47.875343, -4.280979 47.875587, -4.280935 47.875829, -4.280873 47.87607, -4.280794 47.876308, -4.28072 47.876489, -4.280588 47.876547, -4.280575 47.87661, -4.280579 47.876651, -4.280624 47.876694, -4.280584 47.876775, -4.280454 47.877003, -4.280308 47.877226, -4.280145 47.877444, -4.279936 47.87769, -4.279489 47.877201))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Zone naturelle à protéger. Zone du PLU 29252_PLU_20220204 (partition DU_29252), à 125 m du pylône." .
+
+dos:gpu-29174-zone-n-1 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone N — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:zone-N ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 129 ;
+    ant:distanceParcelle 124 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "MULTIPOLYGON (((-4.269525 47.870977, -4.269774 47.871221, -4.270447 47.871621, -4.270818 47.871899, -4.271179 47.872106, -4.271494 47.872355, -4.271848 47.872584, -4.272611 47.873017, -4.272577 47.873042, -4.273566 47.873621, -4.273604 47.873606, -4.273878 47.873786, -4.272283 47.874217, -4.272161 47.874011, -4.271682 47.874126, -4.271511 47.87419, -4.270852 47.874365, -4.270372 47.874628, -4.269411 47.874689, -4.268839 47.874605, -4.268412 47.874579, -4.268423 47.874426, -4.267679 47.874307, -4.267024 47.874149, -4.26705 47.873628, -4.266932 47.873603, -4.266844 47.873615, -4.266739 47.873379, -4.266844 47.873195, -4.266962 47.873015, -4.267292 47.872919, -4.267349 47.873019, -4.268835 47.872861, -4.269354 47.872707, -4.269107 47.872313, -4.268858 47.871891, -4.269611 47.871354, -4.269273 47.871097, -4.269525 47.870977)), ((-4.266786 47.876902, -4.267837 47.876974, -4.26792 47.876903, -4.268027 47.876897, -4.268199 47.876875, -4.268304 47.876852, -4.268281 47.876596, -4.268381 47.876585, -4.268979 47.876533, -4.269111 47.876833, -4.269261 47.876819, -4.269346 47.876862, -4.269776 47.87676, -4.269998 47.876691, -4.270143 47.876667, -4.271 47.877657, -4.271698 47.877793, -4.271685 47.87782, -4.272544 47.878012, -4.273168 47.877882, -4.273259 47.878387, -4.273315 47.878777, -4.273624 47.87897, -4.274151 47.879149, -4.274979 47.879325, -4.275288 47.879306, -4.275508 47.879276, -4.275561 47.879257, -4.275706 47.879279, -4.275963 47.879273, -4.276222 47.879237, -4.276515 47.879234, -4.276965 47.879082, -4.277366 47.879036, -4.277527 47.879106, -4.277747 47.879151, -4.277768 47.879223, -4.277436 47.879367, -4.277129 47.879484, -4.276981 47.879456, -4.27674 47.879435, -4.276408 47.879487, -4.275909 47.879623, -4.276056 47.8798, -4.275812 47.879855, -4.274809 47.880011, -4.274371 47.880051, -4.274121 47.880063, -4.274104 47.879733, -4.272929 47.879435, -4.272756 47.87917, -4.272488 47.878916, -4.272424 47.878831, -4.272156 47.878425, -4.271829 47.878231, -4.271506 47.87808, -4.27142 47.878047, -4.271248 47.878017, -4.271116 47.878027, -4.27076 47.878033, -4.269811 47.877985, -4.269315 47.877999, -4.268867 47.877961, -4.268313 47.877872, -4.267277 47.877592, -4.267153 47.877444, -4.26699 47.877226, -4.266844 47.877003, -4.266786 47.876902)))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Secteurs équipés ou non, à protéger en raison soit de la qualité des sites, des milieux naturels, des paysages et de leur intérêt, soit de la présence d'une exploitation forestière, soit de leur caractère d'espace naturel. Zone du PLU 29174_PLU_20260305 (partition DU_29174), à 129 m du pylône." .
+
+dos:gpu-29174-ebc-1 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Espace boisé classé — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:ebc ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 130 ;
+    ant:distanceParcelle 125 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "POLYGON ((-4.271218 47.873958, -4.271096 47.873648, -4.271146 47.873424, -4.271236 47.87337, -4.271459 47.873314, -4.271976 47.873258, -4.272178 47.87318, -4.272423 47.873147, -4.272561 47.87312, -4.272577 47.873042, -4.272595 47.873029, -4.272577 47.873042, -4.273566 47.873621, -4.273604 47.873606, -4.273878 47.873786, -4.273438 47.873879, -4.273254 47.873956, -4.273 47.873965, -4.272758 47.873903, -4.272649 47.873892, -4.272324 47.873978, -4.271945 47.874068, -4.271627 47.874081, -4.271329 47.874046, -4.271218 47.873958))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Espace boisé classé » (29174_PLU_20260305), à 130 m du pylône et 125 m de la parcelle." .
+
+dos:gpu-29252-ebc-2 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Espace boisé classé — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:ebc ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 166 ;
+    ant:distanceParcelle 155 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POLYGON ((-4.272678 47.872978, -4.273108 47.87278, -4.273456 47.87264, -4.273469 47.872641, -4.273945 47.872457, -4.274128 47.872816, -4.274104 47.873285, -4.273816 47.873423, -4.273543 47.8736, -4.272564 47.873025, -4.272607 47.873, -4.272678 47.872978))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Espace boisé classé à conserver ou à créer » (29252_PLU_20220204), à 166 m du pylône et 155 m de la parcelle." .
+
+dos:gpu-29174-zone-humide-2 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone humide protégée (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:zone-humide ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 168 ;
+    ant:distanceParcelle 139 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "POLYGON ((-4.27504 47.876333, -4.275166 47.876337, -4.275218 47.87635, -4.275345 47.87645, -4.275431 47.876574, -4.275205 47.876626, -4.274458 47.876851, -4.273902 47.876994, -4.273916 47.876864, -4.273899 47.876697, -4.27504 47.876333))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « zone humide à protéger au titre de l'article L.151-23 du CU » (29174_PLU_20260305), à 168 m du pylône et 139 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-7 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 182 ;
+    ant:distanceParcelle 174 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.271339 47.875632, -4.270726 47.875731, -4.270333 47.875767)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 182 m du pylône et 174 m de la parcelle." .
+
+dos:gpu-29252-zone-a-1 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone A — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:zone-A ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 210 ;
+    ant:distanceParcelle 173 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POLYGON ((-4.278234 47.878628, -4.277904 47.878115, -4.277165 47.878303, -4.277043 47.878311, -4.276476 47.878371, -4.276411 47.878206, -4.276214 47.877881, -4.275948 47.87795, -4.275981 47.877929, -4.275858 47.877879, -4.275808 47.877844, -4.275783 47.877779, -4.275784 47.877667, -4.275823 47.877276, -4.275814 47.877116, -4.275569 47.876775, -4.275411 47.876579, -4.275456 47.876564, -4.276195 47.876411, -4.276603 47.876379, -4.276962 47.876325, -4.277006 47.876407, -4.277166 47.876387, -4.277747 47.87628, -4.278261 47.877235, -4.278561 47.877159, -4.278648 47.877145, -4.278769 47.877136, -4.279039 47.877142, -4.279318 47.877161, -4.279489 47.877201, -4.279936 47.87769, -4.279774 47.877863, -4.279565 47.878063, -4.279343 47.878255, -4.279107 47.87844, -4.278858 47.878617, -4.27849 47.878847, -4.278234 47.878628))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Zone à vocation agricole. Zone du PLU 29252_PLU_20220204 (partition DU_29252), à 210 m du pylône." .
+
+dos:gpu-29252-zone-a-2 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone A — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:zone-A ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 214 ;
+    ant:distanceParcelle 107 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "MULTIPOLYGON (((-4.280624 47.876694, -4.280579 47.876651, -4.280575 47.87661, -4.280588 47.876547, -4.28072 47.876489, -4.280624 47.876694)), ((-4.281007 47.875325, -4.280747 47.875344, -4.280047 47.875463, -4.279843 47.875539, -4.279725 47.8756, -4.279736 47.875704, -4.279683 47.875656, -4.279552 47.875455, -4.27951 47.875336, -4.279434 47.87518, -4.279401 47.874811, -4.279387 47.874743, -4.2796 47.874694, -4.279282 47.874039, -4.280584 47.873715, -4.280341 47.873671, -4.280144 47.873623, -4.279924 47.873239, -4.279824 47.87302, -4.279663 47.872608, -4.279558 47.872217, -4.279545 47.872197, -4.277869 47.873659, -4.276182 47.874185, -4.275567 47.872767, -4.275821 47.872689, -4.275564 47.872065, -4.276271 47.871806, -4.276838 47.871574, -4.276696 47.871382, -4.277766 47.870974, -4.278037 47.871103, -4.278322 47.871253, -4.278596 47.871412, -4.278858 47.871581, -4.279107 47.871758, -4.279343 47.871943, -4.279565 47.872135, -4.279774 47.872335, -4.279967 47.872541, -4.280145 47.872754, -4.280308 47.872972, -4.280454 47.873195, -4.280584 47.873423, -4.280698 47.873655, -4.280794 47.87389, -4.280873 47.874128, -4.280935 47.874369, -4.280979 47.874611, -4.281006 47.874855, -4.281015 47.875099, -4.281007 47.875325)))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Zone à vocation agricole. Zone du PLU 29252_PLU_20220204 (partition DU_29252), à 214 m du pylône." .
+
+dos:gpu-29252-zone-ub-2 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone Ub — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:zone-U ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 295 ;
+    ant:distanceParcelle 219 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POLYGON ((-4.276696 47.871382, -4.276838 47.871574, -4.276271 47.871806, -4.275564 47.872065, -4.275821 47.872689, -4.275567 47.872767, -4.275414 47.872412, -4.274951 47.872572, -4.274654 47.871881, -4.275113 47.871706, -4.27504 47.871542, -4.277059 47.870761, -4.277224 47.871182, -4.276696 47.871382))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Zone d'habitat, densité moyenne. Zone du PLU 29252_PLU_20220204 (partition DU_29252), à 295 m du pylône." .
+
+dos:gpu-29174-ebc-2 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Espace boisé classé — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:ebc ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 300 ;
+    ant:distanceParcelle 293 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "MULTIPOLYGON (((-4.267163 47.873601, -4.267928 47.873929, -4.268685 47.874277, -4.268633 47.874259, -4.268571 47.874253, -4.268481 47.874253, -4.268419 47.87426, -4.268363 47.874279, -4.268319 47.874309, -4.268291 47.874346, -4.268281 47.874433, -4.268124 47.874414, -4.26804 47.874435, -4.267992 47.87448, -4.267933 47.874466, -4.267906 47.874422, -4.267841 47.874406, -4.267788 47.874384, -4.267769 47.874344, -4.267751 47.87433, -4.267602 47.87432, -4.267493 47.874299, -4.26745 47.874275, -4.2673 47.87424, -4.267252 47.874179, -4.267235 47.87417, -4.267194 47.874163, -4.267173 47.874125, -4.267078 47.874072, -4.267049 47.873947, -4.267106 47.873863, -4.267146 47.873773, -4.267124 47.873744, -4.267071 47.873716, -4.267082 47.873688, -4.26706 47.873658, -4.267022 47.873644, -4.26694 47.873636, -4.26694 47.873617, -4.267093 47.873634, -4.267163 47.873601)), ((-4.268469 47.8741, -4.269521 47.874558, -4.269631 47.874676, -4.269648 47.87471, -4.269631 47.874676, -4.26952 47.874576, -4.267888 47.873837, -4.268469 47.8741)), ((-4.267888 47.873837, -4.267359 47.873599, -4.267391 47.873545, -4.267629 47.873513, -4.267657 47.873601, -4.267888 47.873837)), ((-4.267701 47.873503, -4.269192 47.873433, -4.269437 47.874281, -4.269421 47.874228, -4.269247 47.874076, -4.269158 47.873974, -4.269132 47.873861, -4.269025 47.87386, -4.268906 47.873846, -4.268734 47.873835, -4.26851 47.873914, -4.268417 47.873934, -4.268207 47.873882, -4.268137 47.873837, -4.268155 47.873735, -4.268131 47.873636, -4.267895 47.87355, -4.267629 47.873513, -4.267701 47.873503)), ((-4.267773 47.873391, -4.26782 47.873371, -4.267908 47.873388, -4.267953 47.873375, -4.268033 47.873366, -4.268281 47.873302, -4.268396 47.873264, -4.268418 47.873222, -4.268473 47.873174, -4.268441 47.87314, -4.268382 47.873129, -4.268503 47.873031, -4.268451 47.872849, -4.268483 47.872839, -4.268552 47.872791, -4.268632 47.872786, -4.268666 47.872791, -4.268758 47.872758, -4.268786 47.872782, -4.26883 47.872791, -4.268872 47.872777, -4.268887 47.872765, -4.2689 47.872735, -4.268893 47.872714, -4.268955 47.872693, -4.268997 47.872707, -4.269038 47.872711, -4.269152 47.872691, -4.269172 47.872706, -4.269226 47.872714, -4.269265 47.872705, -4.269286 47.872692, -4.269269 47.872625, -4.269281 47.872562, -4.269258 47.872522, -4.269214 47.872505, -4.269217 47.872434, -4.269195 47.87239, -4.269162 47.872363, -4.269116 47.87235, -4.269095 47.872283, -4.26898 47.872122, -4.268881 47.872074, -4.268864 47.872048, -4.268861 47.87203, -4.268892 47.871972, -4.268861 47.871922, -4.268855 47.871868, -4.268941 47.87183, -4.269067 47.871739, -4.269097 47.871686, -4.269081 47.871648, -4.26921 47.871626, -4.269307 47.871588, -4.269321 47.871571, -4.269332 47.871528, -4.26941 47.871489, -4.269416 47.871444, -4.269452 47.871413, -4.269521 47.871425, -4.269566 47.871411, -4.269597 47.87137, -4.269612 47.871296, -4.26965 47.87128, -4.269671 47.871307, -4.269776 47.871223, -4.269774 47.871221, -4.269583 47.871036, -4.269774 47.871221, -4.270447 47.871621, -4.270818 47.871899, -4.271179 47.872106, -4.271494 47.872355, -4.271738 47.872511, -4.271623 47.872562, -4.271374 47.8726, -4.271185 47.872548, -4.270976 47.872514, -4.27083 47.872481, -4.270781 47.872454, -4.270644 47.872421, -4.270475 47.872425, -4.27013 47.872566, -4.269966 47.87266, -4.269865 47.872788, -4.269822 47.872907, -4.269501 47.873191, -4.269185 47.87336, -4.267723 47.873436, -4.267773 47.873391)), ((-4.268692 47.87428, -4.269179 47.874503, -4.26946 47.874615, -4.269563 47.874713, -4.269562 47.874724, -4.269545 47.874722, -4.269471 47.874748, -4.269437 47.874721, -4.269315 47.874694, -4.269287 47.874703, -4.269207 47.874708, -4.269151 47.874683, -4.269083 47.874674, -4.268962 47.874676, -4.268516 47.874648, -4.268474 47.874631, -4.268493 47.874606, -4.2685 47.874581, -4.268635 47.874574, -4.26869 47.874555, -4.268734 47.874525, -4.268763 47.874487, -4.268772 47.874446, -4.268772 47.874388, -4.268762 47.874346, -4.268734 47.874308, -4.268692 47.87428)), ((-4.26963 47.874897, -4.269663 47.874738, -4.269639 47.874917, -4.26963 47.874897)), ((-4.269647 47.873205, -4.269722 47.873109, -4.269825 47.872985, -4.269647 47.873205)), ((-4.269868 47.872967, -4.269825 47.872985, -4.26985 47.872972, -4.269974 47.872935, -4.270449 47.8728, -4.269868 47.872967)), ((-4.27098 47.87266, -4.270429 47.872745, -4.270084 47.87283, -4.27047 47.872706, -4.27098 47.87266)), ((-4.270515 47.872788, -4.270514 47.872788, -4.270672 47.872763, -4.270515 47.872788)), ((-4.270683 47.872761, -4.270843 47.872737, -4.271464 47.872643, -4.270683 47.872761)))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Espace boisé classé » (29174_PLU_20260305), à 300 m du pylône et 293 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-8 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 310 ;
+    ant:distanceParcelle 286 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.273168 47.877882, -4.272544 47.878012, -4.271685 47.87782, -4.271698 47.877793)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 310 m du pylône et 286 m de la parcelle." .
+
+dos:gpu-29174-zone-humide-3 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone humide protégée (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:zone-humide ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 310 ;
+    ant:distanceParcelle 287 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "POLYGON ((-4.277127 47.879485, -4.27689 47.879445, -4.27674 47.879435, -4.276563 47.879463, -4.276115 47.879565, -4.275909 47.879623, -4.275799 47.879781, -4.275501 47.879903, -4.27473 47.880021, -4.274371 47.880051, -4.274121 47.880063, -4.274104 47.879733, -4.272991 47.879451, -4.273093 47.879239, -4.273001 47.879209, -4.273008 47.87895, -4.272935 47.878654, -4.27279 47.878376, -4.272632 47.878235, -4.272217 47.878005, -4.272302 47.878, -4.27239 47.877978, -4.272544 47.878012, -4.27317 47.877889, -4.273315 47.878777, -4.273632 47.878962, -4.274157 47.879141, -4.274979 47.879325, -4.275288 47.879306, -4.275508 47.879276, -4.27587 47.879275, -4.276046 47.879252, -4.276312 47.879236, -4.276515 47.879234, -4.276965 47.879082, -4.277366 47.879036, -4.277527 47.879106, -4.277747 47.879151, -4.277768 47.879223, -4.277436 47.879367, -4.277127 47.879485))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « zone humide à protéger au titre de l'article L.151-23 du CU » (29174_PLU_20260305), à 310 m du pylône et 287 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-9 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 317 ;
+    ant:distanceParcelle 301 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.270349 47.876902, -4.27102 47.877681, -4.271247 47.878015)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 317 m du pylône et 301 m de la parcelle." .
+
+dos:gpu-29174-zone-humide-4 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone humide protégée (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:zone-humide ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 324 ;
+    ant:distanceParcelle 319 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "POLYGON ((-4.270475 47.872425, -4.270644 47.872421, -4.270781 47.872454, -4.27083 47.872481, -4.270976 47.872514, -4.271185 47.872548, -4.271374 47.8726, -4.27098 47.87266, -4.27047 47.872706, -4.270084 47.87283, -4.269822 47.872907, -4.269865 47.872788, -4.269966 47.87266, -4.27013 47.872566, -4.270475 47.872425))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « zone humide à protéger au titre de l'article L.151-23 du CU » (29174_PLU_20260305), à 324 m du pylône et 319 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-10 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 328 ;
+    ant:distanceParcelle 319 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.268977 47.876185, -4.269256 47.876132, -4.269515 47.876094)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 328 m du pylône et 319 m de la parcelle." .
+
+dos:gpu-29174-zone-humide-5 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone humide protégée (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:zone-humide ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 332 ;
+    ant:distanceParcelle 309 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "POLYGON ((-4.271963 47.878019, -4.27142 47.878047, -4.271248 47.878017, -4.271158 47.877877, -4.270959 47.877607, -4.271669 47.877843, -4.27239 47.877978, -4.271963 47.878019))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « zone humide à protéger au titre de l'article L.151-23 du CU » (29174_PLU_20260305), à 332 m du pylône et 309 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-11 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 351 ;
+    ant:distanceParcelle 328 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.275317 47.879293, -4.275257 47.878608, -4.275343 47.878058)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 351 m du pylône et 328 m de la parcelle." .
+
+dos:gpu-29252-zone-n-3 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone N — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:zone-N ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 359 ;
+    ant:distanceParcelle 329 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POLYGON ((-4.277715 47.879155, -4.277549 47.879124, -4.277483 47.879102, -4.277367 47.879049, -4.277325 47.879042, -4.277152 47.879083, -4.277042 47.879084, -4.276828 47.87912, -4.276455 47.879231, -4.276193 47.879232, -4.276159 47.879102, -4.276138 47.878788, -4.276156 47.878586, -4.276173 47.878531, -4.276103 47.878407, -4.275951 47.878082, -4.275988 47.878065, -4.275897 47.877968, -4.276214 47.877881, -4.276411 47.878206, -4.276476 47.878371, -4.277043 47.878311, -4.277165 47.878303, -4.277904 47.878115, -4.278234 47.878628, -4.27849 47.878847, -4.278322 47.878945, -4.278037 47.879095, -4.277736 47.879238, -4.277715 47.879155))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Zone naturelle à protéger. Zone du PLU 29252_PLU_20220204 (partition DU_29252), à 359 m du pylône." .
+
+dos:gpu-29174-cours-eau-1 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Cours d'eau protégé (R.151-43 4°) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:cours-eau ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 362 ;
+    ant:distanceParcelle 340 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.266949 47.877164, -4.267043 47.877162, -4.267164 47.877178, -4.267282 47.877207, -4.267535 47.877293, -4.267822 47.877434, -4.267957 47.877521, -4.268195 47.877653, -4.26826 47.877811, -4.268574 47.877894, -4.269142 47.877944, -4.269456 47.877954, -4.269799 47.877953, -4.270074 47.877978, -4.270921 47.878026, -4.271144 47.878005, -4.2716 47.878067, -4.271939 47.87818, -4.272045 47.878226, -4.2722 47.878315, -4.27228 47.878373, -4.272627 47.878657, -4.27278 47.878794, -4.272986 47.879002, -4.273073 47.879161, -4.273184 47.879223, -4.273357 47.879264, -4.273623 47.879292, -4.273702 47.879308, -4.27406 47.879395, -4.274169 47.87943, -4.274331 47.879472, -4.274513 47.879539, -4.274695 47.879627, -4.274737 47.879632, -4.274847 47.879631, -4.275365 47.87958, -4.275541 47.879521, -4.275734 47.879479, -4.276047 47.879425, -4.276292 47.879357, -4.276491 47.87932, -4.276602 47.879293, -4.276796 47.879286, -4.276916 47.879275, -4.277 47.879293, -4.27708 47.879327, -4.277368 47.879393)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « cours d'eau à protéger au titre de l'article R151-43 4°du CU » (29174_PLU_20260305), à 362 m du pylône et 340 m de la parcelle." .
+
+dos:gpu-29174-zone-humide-6 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone humide protégée (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:zone-humide ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 364 ;
+    ant:distanceParcelle 344 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "POLYGON ((-4.269804 47.877908, -4.270243 47.877838, -4.270448 47.877796, -4.270777 47.877763, -4.270838 47.878008, -4.270495 47.877998, -4.26972 47.877953, -4.269804 47.877908))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « zone humide à protéger au titre de l'article L.151-23 du CU » (29174_PLU_20260305), à 364 m du pylône et 344 m de la parcelle." .
+
+dos:gpu-29174-zone-a-2 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone A — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:zone-A ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 366 ;
+    ant:distanceParcelle 344 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "MULTIPOLYGON (((-4.267277 47.877592, -4.268313 47.877872, -4.268867 47.877961, -4.269315 47.877999, -4.269811 47.877985, -4.27076 47.878033, -4.271116 47.878027, -4.271248 47.878017, -4.27142 47.878047, -4.271506 47.87808, -4.271829 47.878231, -4.272156 47.878425, -4.272424 47.878831, -4.272488 47.878916, -4.272756 47.87917, -4.272929 47.879435, -4.274104 47.879733, -4.274121 47.880063, -4.273649 47.880075, -4.273288 47.880069, -4.272927 47.880051, -4.272568 47.880021, -4.272212 47.879979, -4.271859 47.879925, -4.271511 47.87986, -4.271167 47.879784, -4.27083 47.879696, -4.2705 47.879597, -4.270177 47.879487, -4.269862 47.879367, -4.269557 47.879236, -4.269261 47.879095, -4.268976 47.878945, -4.268702 47.878786, -4.26844 47.878617, -4.268191 47.87844, -4.267955 47.878255, -4.267733 47.878063, -4.267524 47.877863, -4.267277 47.877592)), ((-4.275812 47.879855, -4.275439 47.879925, -4.275086 47.879979, -4.274809 47.880011, -4.275812 47.879855)), ((-4.275909 47.879623, -4.276408 47.879487, -4.27674 47.879435, -4.276981 47.879456, -4.277129 47.879484, -4.276798 47.879597, -4.276468 47.879696, -4.276056 47.8798, -4.275909 47.879623)))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Secteurs de la commune, équipés ou non, à protéger en raison du potentiel agronomique, biologique ou économique des terres agricoles. Zone du PLU 29174_PLU_20260305 (partition DU_29174), à 366 m du pylône." .
+
+dos:gpu-29174-haie-talus-12 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 369 ;
+    ant:distanceParcelle 348 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.271247 47.878015, -4.271387 47.878256, -4.271434 47.878433, -4.271414 47.878575, -4.271388 47.878638)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 369 m du pylône et 348 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-13 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 375 ;
+    ant:distanceParcelle 367 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.267858 47.87578, -4.268312 47.875958, -4.26831 47.875973, -4.268876 47.876152)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 375 m du pylône et 367 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-14 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 378 ;
+    ant:distanceParcelle 357 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.271202 47.878904, -4.271042 47.878029)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 378 m du pylône et 357 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-15 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 386 ;
+    ant:distanceParcelle 365 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.26819 47.87784, -4.268313 47.877872, -4.268867 47.877961, -4.269315 47.877999, -4.269811 47.877985, -4.27076 47.878033, -4.270853 47.878033)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 386 m du pylône et 365 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-16 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 406 ;
+    ant:distanceParcelle 382 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.272991 47.879451, -4.273318 47.878767)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 406 m du pylône et 382 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-17 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 406 ;
+    ant:distanceParcelle 382 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.273318 47.878767, -4.273632 47.878962, -4.274157 47.879141, -4.274981 47.879315, -4.275286 47.879297, -4.275504 47.879267, -4.275527 47.879262, -4.27553 47.879246, -4.275707 47.87927, -4.275962 47.879263, -4.27622 47.879228, -4.276222 47.879237, -4.276515 47.879234, -4.276789 47.87914)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 406 m du pylône et 382 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-18 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 416 ;
+    ant:distanceParcelle 410 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.268208 47.875917, -4.268304 47.876852, -4.268336 47.876845)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 416 m du pylône et 410 m de la parcelle." .
+
+dos:gpu-29252-ebc-3 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Espace boisé classé — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:ebc ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 423 ;
+    ant:distanceParcelle 316 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POLYGON ((-4.278274 47.871684, -4.278357 47.871647, -4.278988 47.871999, -4.278967 47.872084, -4.278785 47.872256, -4.278597 47.872453, -4.278608 47.872524, -4.278592 47.872842, -4.27856 47.872874, -4.278599 47.872907, -4.278655 47.872897, -4.278455 47.87308, -4.278155 47.872338, -4.277912 47.871872, -4.278274 47.871684))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Espace boisé classé à conserver ou à créer » (29252_PLU_20220204), à 423 m du pylône et 316 m de la parcelle." .
+
+dos:gpu-29174-zone-humide-7 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone humide protégée (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:zone-humide ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 431 ;
+    ant:distanceParcelle 413 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "POLYGON ((-4.267075 47.877176, -4.267414 47.877249, -4.267711 47.877334, -4.268069 47.877523, -4.268171 47.87764, -4.2684 47.877701, -4.268904 47.877774, -4.269132 47.877834, -4.269429 47.877896, -4.269559 47.877909, -4.26972 47.877953, -4.269315 47.877999, -4.269009 47.877947, -4.268313 47.877872, -4.267277 47.877592, -4.267153 47.877444, -4.266952 47.877168, -4.267075 47.877176))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « zone humide à protéger au titre de l'article L.151-23 du CU » (29174_PLU_20260305), à 431 m du pylône et 413 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-19 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 436 ;
+    ant:distanceParcelle 429 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.268833 47.872863, -4.267349 47.873019)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 436 m du pylône et 429 m de la parcelle." .
+
+dos:gpu-29252-element-patrimoine-local-1 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Puits et voute (Kerfilin) — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:element-patrimoine-local ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 436 ;
+    ant:distanceParcelle 363 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POINT (-4.276082 47.871511)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Puits et voute (Kerfilin) » (29252_PLU_20220204), à 436 m du pylône et 363 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-20 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 439 ;
+    ant:distanceParcelle 433 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.267858 47.87578, -4.26792 47.876903)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 439 m du pylône et 433 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-21 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 445 ;
+    ant:distanceParcelle 419 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.27622 47.879228, -4.276182 47.879054, -4.276169 47.878906, -4.27617 47.878747)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 445 m du pylône et 419 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-22 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 455 ;
+    ant:distanceParcelle 448 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.268089 47.873422, -4.267628 47.87344, -4.267163 47.873517, -4.266984 47.873535, -4.266876 47.873532)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 455 m du pylône et 448 m de la parcelle." .
+
+dos:gpu-29252-zone-a-3 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Zone A — PLU de Saint-Jean-Trolimon"@fr ;
+    ant:typeDeZone skt:zone-A ;
+    ant:dansLieu dos:commune-stjean ;
+    ant:distanceProjet 456 ;
+    ant:distanceParcelle 405 ;
+    ant:origineGpu "29252_PLU_20220204" ;
+    geo:asWKT "POLYGON ((-4.276452 47.870735, -4.276028 47.870829, -4.276028 47.870769, -4.275914 47.870788, -4.275341 47.870899, -4.275023 47.870969, -4.27479 47.871044, -4.274755 47.870944, -4.274423 47.870196, -4.272041 47.870853, -4.271982 47.870857, -4.271967 47.870768, -4.271894 47.870594, -4.271821 47.870461, -4.271778 47.870404, -4.271743 47.870416, -4.271717 47.870474, -4.271298 47.870655, -4.270299 47.871161, -4.270225 47.871095, -4.269877 47.871253, -4.269773 47.871242, -4.269701 47.871164, -4.269502 47.870988, -4.269862 47.870831, -4.270177 47.870711, -4.2705 47.870601, -4.27083 47.870502, -4.271167 47.870414, -4.271511 47.870338, -4.271859 47.870273, -4.272212 47.870219, -4.272568 47.870177, -4.272927 47.870147, -4.273288 47.870129, -4.273649 47.870123, -4.27401 47.870129, -4.274371 47.870147, -4.27473 47.870177, -4.275086 47.870219, -4.275439 47.870273, -4.275787 47.870338, -4.276131 47.870414, -4.276468 47.870502, -4.276882 47.87063, -4.276452 47.870735))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Zone à vocation agricole. Zone du PLU 29252_PLU_20220204 (partition DU_29252), à 456 m du pylône." .
+
+dos:gpu-29174-haie-talus-23 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 464 ;
+    ant:distanceParcelle 442 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.271256 47.878976, -4.271233 47.879064, -4.271295 47.879348, -4.271419 47.87984)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 464 m du pylône et 442 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-24 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 480 ;
+    ant:distanceParcelle 467 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.267837 47.876974, -4.26794 47.877231, -4.268092 47.877362, -4.268147 47.877352)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 480 m du pylône et 467 m de la parcelle." .
+
+dos:gpu-29174-haie-talus-25 a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Haie ou talus à préserver (L.151-23) — PLU de Plonéour-Lanvern"@fr ;
+    ant:typeDeZone skt:haie-talus ;
+    ant:dansLieu dos:commune-ploneour ;
+    ant:distanceProjet 484 ;
+    ant:distanceParcelle 460 ;
+    ant:origineGpu "29174_PLU_20260305" ;
+    geo:asWKT "LINESTRING (-4.274104 47.879733, -4.272991 47.879451)"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10 ;
+    note:note "Prescription « Haie ou talus à préserver (L.151-23 du CU) » (29174_PLU_20260305), à 484 m du pylône et 460 m de la parcelle." .
+
+# ═══ Bandes de règlement (géométries dérivées) ═══
+
+dos:bande-recul-limites-3m a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Bande de recul de 3 m en limite de parcelle (A II-1-c)"@fr ;
+    ant:typeDeZone skt:bande-de-regle ;
+    ant:dansLieu dos:lieudit-kerfilin-sud ;
+    ant:rayonAffichage 3 ;
+    ant:distanceProjet 1 ;
+    ant:distanceParcelle 0 ;
+    ant:geometrieDerivee true ;
+    geo:asWKT "POLYGON ((-4.274414 47.87515, -4.273628 47.875313, -4.27356 47.875077, -4.274161 47.874945, -4.274979 47.874708, -4.275156 47.874955, -4.27517 47.874985, -4.274414 47.87515), (-4.275119 47.874965, -4.27496 47.874744, -4.274177 47.87497, -4.273606 47.875095, -4.273659 47.875278, -4.274402 47.875124, -4.275119 47.874965))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10, src:bdtopo-routes-2026-10 ;
+    note:note "Couronne de 3 m le long des limites de la parcelle YX 26 : recul minimal des constructions par rapport aux limites séparatives en zone A. Le règlement exempte les « ouvrages techniques » (supports de télécommunications) nécessaires aux réseaux existants : la question est de savoir si ce relais en fait partie. Le pylône est à 4,4 m du bord de parcelle." .
+
+dos:bande-recul-voie-5m a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Bande de recul de 5 m depuis l'alignement des voies (A II-1-b)"@fr ;
+    ant:typeDeZone skt:bande-de-regle ;
+    ant:dansLieu dos:lieudit-kerfilin-sud ;
+    ant:rayonAffichage 5 ;
+    ant:distanceProjet 3 ;
+    ant:distanceParcelle 0 ;
+    ant:geometrieDerivee true ;
+    geo:asWKT "POLYGON ((-4.276303 47.874219, -4.275202 47.874647, -4.274789 47.874794, -4.274416 47.874899, -4.274201 47.874953, -4.273979 47.875004, -4.273795 47.875034, -4.273574 47.875086, -4.273597 47.87514, -4.273729 47.875605, -4.273795 47.875901, -4.273814 47.87595, -4.273843 47.875982, -4.273977 47.876047, -4.274135 47.876101, -4.274325 47.876148, -4.274425 47.876168, -4.274757 47.876213, -4.274972 47.876235, -4.275173 47.876275, -4.275315 47.876351, -4.275384 47.876402, -4.275449 47.876466, -4.275539 47.876604, -4.275619 47.876703, -4.275849 47.877031, -4.275892 47.877139, -4.275901 47.877257, -4.275862 47.877656, -4.275846 47.877682, -4.275806 47.877703, -4.275764 47.877706, -4.275732 47.877699, -4.275702 47.877679, -4.27569 47.877658, -4.275727 47.877252, -4.27572 47.877159, -4.275706 47.877112, -4.275587 47.876928, -4.275382 47.876654, -4.275296 47.876524, -4.275244 47.876473, -4.27519 47.876432, -4.275093 47.87638, -4.274934 47.87635, -4.274726 47.876328, -4.274388 47.876283, -4.274269 47.87626, -4.274068 47.876209, -4.273892 47.87615, -4.273717 47.876064, -4.273654 47.875997, -4.273624 47.875924, -4.273558 47.875627, -4.273411 47.875129, -4.272755 47.875308, -4.272324 47.875401, -4.271328 47.875644, -4.270788 47.875748, -4.270415 47.875801, -4.27024 47.875833, -4.270062 47.875877, -4.269757 47.875988, -4.269578 47.876035, -4.269542 47.876039, -4.269506 47.876033, -4.269477 47.876019, -4.269457 47.875998, -4.269451 47.875974, -4.269456 47.875955, -4.269474 47.875934, -4.269495 47.875922, -4.269673 47.875875, -4.269983 47.875762, -4.270177 47.875713, -4.270375 47.875678, -4.270742 47.875625, -4.271269 47.875524, -4.272263 47.875282, -4.272691 47.875189, -4.273517 47.874965, -4.273743 47.874913, -4.273923 47.874883, -4.274345 47.874782, -4.274713 47.874678, -4.275109 47.874537, -4.275538 47.874365, -4.27621 47.874109, -4.276246 47.874104, -4.276273 47.874106, -4.276306 47.874117, -4.276325 47.87413, -4.27634 47.874153, -4.276341 47.874178, -4.276328 47.874201, -4.276303 47.874219))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10, src:bdtopo-routes-2026-10 ;
+    note:note "Approximation : axe des voies de la BD TOPO élargi de la demi-chaussée puis de 5 m (l'alignement exact, limite du domaine public, n'est pas dans les données). Recul de 5 m des constructions nouvelles par rapport à l'alignement des voies communales ; mêmes exemptions pour les ouvrages techniques. Les routes départementales ont des reculs plus grands (15 à 35 m), mais aucune n'est à proximité." .
+
+dos:bande-29174-cours-eau-1-10m a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Bande inconstructible de 10 m le long du cours d'eau (A I-1)"@fr ;
+    ant:typeDeZone skt:bande-de-regle ;
+    ant:dansLieu dos:lieudit-kerfilin-sud ;
+    ant:rayonAffichage 10 ;
+    ant:distanceProjet 352 ;
+    ant:distanceParcelle 330 ;
+    ant:geometrieDerivee true ;
+    geo:asWKT "POLYGON ((-4.264383 47.876895, -4.26463 47.876931, -4.265018 47.876968, -4.265697 47.876993, -4.265825 47.877003, -4.265952 47.877031, -4.266014 47.877053, -4.266081 47.877058, -4.266321 47.877059, -4.266755 47.877077, -4.267053 47.877072, -4.26721 47.877093, -4.267339 47.877125, -4.267597 47.877212, -4.267901 47.877361, -4.268046 47.877453, -4.2683 47.877597, -4.268324 47.877629, -4.268371 47.877743, -4.268607 47.877806, -4.269157 47.877854, -4.269457 47.877864, -4.269817 47.877863, -4.270089 47.877888, -4.270914 47.877935, -4.271156 47.877915, -4.271639 47.877981, -4.272011 47.878104, -4.272131 47.878157, -4.272298 47.878254, -4.272541 47.878441, -4.272887 47.87874, -4.273105 47.878961, -4.273186 47.879107, -4.273255 47.879145, -4.273284 47.879154, -4.273389 47.879176, -4.27366 47.879205, -4.273974 47.879275, -4.274395 47.879392, -4.274577 47.879459, -4.274746 47.879541, -4.274799 47.879543, -4.275322 47.879494, -4.275482 47.879439, -4.275591 47.879413, -4.276004 47.879339, -4.276252 47.879271, -4.276453 47.879233, -4.276567 47.879206, -4.27691 47.879185, -4.276945 47.879187, -4.277051 47.87921, -4.277137 47.879244, -4.277745 47.879381, -4.277996 47.879406, -4.278046 47.879418, -4.278448 47.879622, -4.278554 47.879683, -4.278696 47.879773, -4.278919 47.87993, -4.278986 47.879966, -4.279216 47.88004, -4.279242 47.88006, -4.279258 47.880084, -4.279263 47.880111, -4.279257 47.880137, -4.279239 47.880161, -4.279202 47.880185, -4.279166 47.880196, -4.279127 47.8802, -4.279076 47.880192, -4.278843 47.880119, -4.278735 47.880062, -4.278504 47.879899, -4.278377 47.879819, -4.278289 47.879768, -4.278075 47.879663, -4.277924 47.879581, -4.277672 47.879556, -4.277038 47.879413, -4.276943 47.879376, -4.276904 47.879368, -4.276631 47.879382, -4.276337 47.879442, -4.276089 47.879511, -4.275676 47.879585, -4.275592 47.879604, -4.275388 47.87967, -4.274859 47.879722, -4.274732 47.879723, -4.274656 47.879713, -4.274572 47.879681, -4.274441 47.879615, -4.274275 47.879554, -4.274122 47.879514, -4.274007 47.879478, -4.273662 47.879394, -4.273595 47.879381, -4.273317 47.87935, -4.273183 47.879322, -4.273109 47.879298, -4.272968 47.879217, -4.272948 47.879193, -4.272865 47.879043, -4.27267 47.878847, -4.272522 47.878713, -4.27218 47.878433, -4.272107 47.878381, -4.271965 47.878299, -4.271873 47.878259, -4.271554 47.878153, -4.271139 47.878096, -4.270911 47.878116, -4.270062 47.878068, -4.26979 47.878044, -4.269453 47.878044, -4.269131 47.878034, -4.268536 47.877981, -4.268211 47.877895, -4.268175 47.877881, -4.268135 47.877844, -4.268077 47.877705, -4.267872 47.877591, -4.267736 47.877503, -4.267576 47.877424, -4.267465 47.87737, -4.26723 47.87729, -4.267129 47.877266, -4.267032 47.877253, -4.266745 47.877258, -4.266306 47.877239, -4.266055 47.877239, -4.265932 47.877226, -4.26578 47.877181, -4.264981 47.877147, -4.26459 47.87711, -4.264343 47.877074, -4.2641 47.877053, -4.264042 47.877032, -4.264004 47.876996, -4.263996 47.876962, -4.264008 47.876927, -4.264038 47.876898, -4.264082 47.87688, -4.264134 47.876874, -4.264383 47.876895))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10, src:bdtopo-routes-2026-10 ;
+    note:note "Aucune nouvelle construction à moins de 10 m des berges des cours d'eau, en zone A." .
+
+dos:rayon-hauteur-pylone a owl:NamedIndividual, ant:ZoneReglementaire ;
+    rdfs:label "Rayon indicatif : hauteur sommitale du pylône (32,65 m)"@fr ;
+    ant:typeDeZone skt:bande-de-regle ;
+    ant:dansLieu dos:lieudit-kerfilin-sud ;
+    ant:rayonAffichage 32.65 ;
+    ant:distanceProjet 0 ;
+    ant:distanceParcelle 0 ;
+    ant:geometrieDerivee true ;
+    geo:asWKT "POLYGON ((-4.273212 47.875099, -4.27322 47.875041, -4.273245 47.874986, -4.273285 47.874935, -4.27334 47.87489, -4.273406 47.874853, -4.273482 47.874826, -4.273564 47.874809, -4.273649 47.874804, -4.273734 47.874809, -4.273816 47.874826, -4.273892 47.874853, -4.273958 47.87489, -4.274013 47.874935, -4.274053 47.874986, -4.274078 47.875041, -4.274086 47.875099, -4.274078 47.875157, -4.274053 47.875212, -4.274013 47.875263, -4.273958 47.875308, -4.273892 47.875345, -4.273816 47.875372, -4.273734 47.875389, -4.273649 47.875394, -4.273564 47.875389, -4.273482 47.875372, -4.273406 47.875345, -4.27334 47.875308, -4.273285 47.875263, -4.273245 47.875212, -4.27322 47.875157, -4.273212 47.875099))"^^geo:wktLiteral ;
+    prov:wasDerivedFrom src:apicarto-gpu-2026-10, src:bdtopo-routes-2026-10 ;
+    note:note "Cercle de rayon égal à la hauteur du pylône avec ses antennes (32,65 m, dossier d'information, p. 13). **Ce n'est pas une règle du PLU** : il montre ce qui se trouve à une distance inférieure à la hauteur de la structure, argument usuel sur la sécurité (R. 111-2) mais rarement retenu seul." .
+
+# ═══ Règles du règlement écrit ═══
+
+dos:plu-regle-a-i-2-3 ant:applicabiliteAuProjet "a-verifier" ;
+    ant:articlePlu "A I-2 §3, règlement écrit p. 96" ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2 .
+
+dos:plu-art-9-ouvrages a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — dispositions générales, art. 9 (ouvrages spécifiques)"@fr ;
+    ant:applicabiliteAuProjet "oui" ;
+    ant:articlePlu "Dispositions générales, art. 9, p. 14-15 ; répété en A II-1-b et A II-1-c, p. 98" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "« Il n'est pas fixé de règles spécifiques en matière d'emprise au sol, de hauteur, d'aspect extérieur et de stationnement » pour les ouvrages techniques (transformateurs, supports de transport d'énergie ou de **télécommunications**…) nécessaires au fonctionnement des réseaux existants d'utilité publique ; leur édification est appréciée selon leur apport à la vie sociale et leur insertion dans l'environnement. **Règle clé pour ce dossier** : elle écarte les limites de hauteur et de recul de la zone A, mais seulement pour un ouvrage « nécessaire au fonctionnement des réseaux **existants** »." ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2 .
+
+dos:plu-a-ii-1-a-hauteur a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, hauteur (A II-1-a)"@fr ;
+    ant:applicabiliteAuProjet "a-verifier" ;
+    ant:articlePlu "A II-1-a, p. 97" ;
+    ant:valeurLimite 9 ;
+    ant:uniteLimite "m" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "Hauteur mesurée du terrain naturel au sommet, ouvrages techniques, cheminées et superstructures exclus : 8 m pour l'habitation, **9 m pour les activités**, 4 m pour les annexes. Le pylône mesure 30 m (32,65 m avec les antennes). La règle ne le vise pas expressément ; l'exemption de l'art. 9 des dispositions générales suppose un ouvrage technique « nécessaire aux réseaux existants »." ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2 .
+
+dos:plu-a-ii-1-b-voies a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, recul par rapport aux voies (A II-1-b)"@fr ;
+    ant:applicabiliteAuProjet "a-verifier" ;
+    ant:articlePlu "A II-1-b, p. 97-98" ;
+    ant:valeurLimite 5 ;
+    ant:uniteLimite "m" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "5 m minimum par rapport à l'alignement des voies publiques ou privées (autres que départementales). Départementales : 15 à 35 m selon la route ; RD 785 : 75 m pour les habitations. Exemption des ouvrages techniques comme ci-dessus." ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2, dos:bande-recul-voie-5m .
+
+dos:plu-a-ii-1-c-limites a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, recul par rapport aux limites séparatives (A II-1-c)"@fr ;
+    ant:applicabiliteAuProjet "a-verifier" ;
+    ant:articlePlu "A II-1-c, p. 98" ;
+    ant:valeurLimite 3 ;
+    ant:uniteLimite "m" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "Recul minimal de 3 m par rapport aux limites séparatives ; annexes en limite ou à 3 m. Exemption des ouvrages techniques comme ci-dessus. Distance du pylône au bord de la parcelle : 4,4 m." ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2, dos:bande-recul-limites-3m .
+
+dos:plu-a-ii-2-cloture a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, clôtures (A II-2 §3)"@fr ;
+    ant:applicabiliteAuProjet "oui" ;
+    ant:articlePlu "A II-2 §3, p. 100" ;
+    ant:valeurLimite 2 ;
+    ant:uniteLimite "m" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "En limite séparative, 2 m maximum au-dessus du terrain naturel ; en bordure de voie 1,40 m (mur bahut de 0,80 m surmonté d'une claire-voie). Matériaux de fortune, parpaings non enduits et plaques de béton interdits. Au-delà de 2 m seulement « en cas de nécessité impérative liée à l'activité », avec doublement par une haie si la clôture est visible de la voie publique. La clôture du projet (grillage de 2 m, RAL 6005) est **exactement à la limite**, et longe une route." ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2 .
+
+dos:plu-a-ii-2-insertion a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, qualité architecturale et paysagère (A II-2)"@fr ;
+    ant:applicabiliteAuProjet "oui" ;
+    ant:articlePlu "A II-2, p. 99-100" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "Le permis peut être refusé ou assorti de prescriptions si la situation, l'architecture, les dimensions ou l'aspect de l'ouvrage portent atteinte au caractère des lieux, aux sites, aux paysages ou aux perspectives monumentales. Le texte ajoute qu'un argumentaire d'insertion paysagère accompagne la demande (le texte paraît lié au secteur At ; lecture à confirmer)." ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2 .
+
+dos:plu-a-i-1-zones-humides a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, zones humides (A I-1 §1, A I-2 §4)"@fr ;
+    ant:applicabiliteAuProjet "a-verifier" ;
+    ant:articlePlu "A I-1 §1, p. 93 ; A I-2 §4, p. 96" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "Dans une zone humide L.151-23 : interdits tous travaux relevant de l'urbanisme affectant son fonctionnement (construction, remblaiement, exhaussement, affouillement, dépôts, création de plan d'eau, imperméabilisation). Admis : aménagements légers et ouvrages strictement nécessaires aux **réseaux d'utilité publique** si leur localisation répond à une nécessité technique impérative d'intérêt général. La zone humide la plus proche est à 76 m du pylône : vérifier le tracé de la piste d'accès, de la tranchée de raccordement et l'exutoire des eaux." ;
+    ant:reglementeZone dos:zone-humide-voisine, dos:gpu-29174-zone-humide-2, dos:gpu-29174-zone-humide-3, dos:gpu-29174-zone-humide-4, dos:gpu-29174-zone-humide-5, dos:gpu-29174-zone-humide-6, dos:gpu-29174-zone-humide-7 .
+
+dos:plu-a-i-1-cours-eau a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, cours d'eau protégés (A I-1 §2)"@fr ;
+    ant:applicabiliteAuProjet "non" ;
+    ant:articlePlu "A I-1 §2, p. 94" ;
+    ant:valeurLimite 10 ;
+    ant:uniteLimite "m" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "Pas de nouvelle construction à moins de 10 m des berges, exhaussements et affouillements interdits. Le cours d'eau protégé le plus proche est à 362 m du pylône : sans effet sur ce projet." ;
+    ant:reglementeZone dos:gpu-29174-cours-eau-1, dos:bande-29174-cours-eau-1-10m .
+
+dos:plu-art-6 ant:applicabiliteAuProjet "oui" ;
+    ant:articlePlu "Dispositions générales, art. 6, p. 13" ;
+    ant:reglementeZone dos:gpu-29174-haie-talus-1, dos:haie-sud, dos:gpu-29174-haie-talus-3, dos:gpu-29174-haie-talus-4, dos:gpu-29174-haie-talus-5, dos:haie-nord, dos:gpu-29174-haie-talus-7, dos:gpu-29174-haie-talus-8, dos:gpu-29174-haie-talus-9, dos:gpu-29174-haie-talus-10, dos:gpu-29174-haie-talus-11, dos:gpu-29174-haie-talus-12, dos:gpu-29174-haie-talus-13, dos:gpu-29174-haie-talus-14, dos:gpu-29174-haie-talus-15, dos:gpu-29174-haie-talus-16, dos:gpu-29174-haie-talus-17, dos:gpu-29174-haie-talus-18, dos:gpu-29174-haie-talus-19, dos:gpu-29174-haie-talus-20, dos:gpu-29174-haie-talus-21, dos:gpu-29174-haie-talus-22, dos:gpu-29174-haie-talus-23, dos:gpu-29174-haie-talus-24, dos:gpu-29174-haie-talus-25 .
+
+dos:plu-art-7-ebc a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — dispositions générales, art. 7 (espaces boisés classés)"@fr ;
+    ant:applicabiliteAuProjet "non" ;
+    ant:articlePlu "Dispositions générales, art. 7, p. 13" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "Le classement interdit tout changement d'affectation du sol de nature à compromettre la conservation ou la création des boisements et entraîne le rejet de plein droit de toute demande de défrichement. Les EBC les plus proches sont à 125 m (Saint-Jean-Trolimon) et 130 m (Plonéour-Lanvern) : sans effet direct sur l'emprise de la parcelle." ;
+    ant:reglementeZone dos:gpu-29174-ebc-1, dos:gpu-29174-ebc-2, dos:ebc-voisin, dos:gpu-29252-ebc-2, dos:gpu-29252-ebc-3 .
+
+dos:plu-a-iii-1-desserte a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, accès et voirie (A III-1)"@fr ;
+    ant:applicabiliteAuProjet "oui" ;
+    ant:articlePlu "A III-1, p. 101-102" ;
+    ant:valeurLimite 4 ;
+    ant:uniteLimite "m" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "Accès sécurisé (permis subordonné à des aménagements si l'accès présente un risque), nombre d'accès limité, voie d'au moins 4 m de chaussée carrossable en tout temps. Le terrain doit avoir accès à une voie publique ou privée, éventuellement par servitude (art. 682 du code civil)." ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2 .
+
+dos:plu-a-iii-2-reseaux a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, réseaux (A III-2-d)"@fr ;
+    ant:applicabiliteAuProjet "oui" ;
+    ant:articlePlu "A III-2-d, p. 103" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "Les nouveaux raccordements électriques et de communications sont réalisés en souterrain, aux frais du constructeur. Une tranchée de raccordement traverse les terrains voisins : lire avec le moyen « raccordement électrique » (L.111-11)." ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2 .
+
+dos:plu-a-captage a owl:NamedIndividual, ant:RegleDeZone ;
+    rdfs:label "PLU Plonéour-Lanvern — zone A, périmètre de protection de captage"@fr ;
+    ant:applicabiliteAuProjet "a-verifier" ;
+    ant:articlePlu "Introduction de la zone A, p. 93" ;
+    prov:wasDerivedFrom src:plu-reglement-ecrit-2026-03 ;
+    note:note "Le règlement signale que la zone A est « concernée par un périmètre de protection d'un captage d'eau potable » et renvoie à l'annexe du PLU. Le périmètre n'a pas été localisé : à vérifier dans les annexes (servitude AS1)." ;
+    ant:reglementeZone dos:zone-plu-a, dos:gpu-29174-zone-a-2 .

@@ -219,14 +219,29 @@ class Site:
     # ── cartes ───────────────────────────────────────────────────
     @staticmethod
     def parse_wkt(w):
+        """WKT -> structure Leaflet [lat, lon] : Point (ll), LineString (pts), (Multi)Polygon (rings ; polys si multiple)."""
         w = w.strip()
-        nums = lambda t: [[float(a) for a in pt.split()] for pt in t.split(",")]
-        if w.upper().startswith("POINT"):
+        up = w.upper()
+        if up.startswith("POINT"):
             x, y = [float(a) for a in re.search(r"\(([^)]+)\)", w).group(1).split()]
             return {"type": "Point", "ll": [round(y, 6), round(x, 6)]}
-        rings = re.findall(r"\(([^()]+)\)", w)
-        polys = [[[round(y, 5), round(x, 5)] for x, y in nums(r)] for r in rings]
-        return {"type": "Polygon", "rings": polys}
+        stack = [[]]
+        for tok in re.findall(r"\(|\)|[-+0-9.eE]+\s+[-+0-9.eE]+", w):
+            if tok == "(":
+                stack.append([])
+            elif tok == ")":
+                done = stack.pop()
+                stack[-1].append(done)
+            else:
+                x, y = [float(a) for a in tok.split()]
+                stack[-1].append([round(y, 6), round(x, 6)])
+        top = stack[0][0]
+        if up.startswith("LINESTRING"):
+            return {"type": "Line", "pts": top}
+        if up.startswith("MULTIPOLYGON"):
+            polys = [list(poly) for poly in top]
+            return {"type": "Polygon", "rings": [r for poly in polys for r in poly], "polys": polys}
+        return {"type": "Polygon", "rings": list(top)}
 
     def map_data(self, ents):
         g = self.g2
@@ -265,6 +280,26 @@ class Site:
                     f["kind"] = "phoenix"
                 else:
                     f["kind"] = "support"
+            elif "ZoneReglementaire" in types:
+                f["kind"] = "zone"
+                tz = next(iter(g.objects(s, A("typeDeZone"))), None)
+                f["ztype"] = short(tz) if tz else ""
+                f["ztype_label"] = self.label(tz) if tz else ""
+                d = self.val(s, A("distanceProjet"))
+                f["d"] = float(d) if d is not None else None
+                f["derived"] = bool(self.val(s, A("geometrieDerivee")))
+                r = self.val(s, A("rayonAffichage"))
+                f["radius"] = float(r) if r is not None else None
+                f["text"] = ents[sid]["note"][:500]
+                rules = []
+                for rs in g.subjects(A("reglementeZone"), s):
+                    v = self.val(rs, A("valeurLimite"))
+                    rules.append({"id": short(rs), "label": self.label(rs), "app": str(self.val(rs, A("applicabiliteAuProjet"), "")),
+                                  "art": str(self.val(rs, A("articlePlu"), "")),
+                                  "value": (float(v) if v is not None else None), "unit": str(self.val(rs, A("uniteLimite"), ""))})
+                f["rules"] = sorted(rules, key=lambda r: r["label"])
+            elif sid == "dos:position-pylone-operateur":
+                f["kind"] = "pylone"
             else:
                 f["kind"] = "autre"
             feats.append(f)

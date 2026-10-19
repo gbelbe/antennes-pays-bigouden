@@ -172,7 +172,7 @@ dos:m-covisibilite a owl:NamedIndividual, ant:Mesure ;
 dos:projet-pylone a owl:NamedIndividual, ant:ProjetAntenne ;
     rdfs:label "Relais radioélectrique de Kersalous"@fr ;
     ant:implanteSur dos:parcelle-yx26 ;
-    geo:asWKT "POINT(-4.274491 47.874985)"^^geo:wktLiteral ;
+    geo:asWKT "POINT(-4.273649 47.875099)"^^geo:wktLiteral ;
     ant:comprendOuvrage dos:ouvrage-pylone, dos:ouvrage-zone-technique, dos:ouvrage-cloture, dos:ouvrage-massif-beton .
 
 dos:ouvrage-pylone a owl:NamedIndividual, ant:Ouvrage ;

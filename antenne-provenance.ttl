@@ -791,3 +791,38 @@ src:ddtm29-communes-littorales a owl:NamedIndividual, src:JeuDeDonnees ;
     src:niveauDePreuve src:primaire ;
     src:dateDonnees "champ MAJ : 2019-06-19 ; jeu republié le 2024-11-04" ;
     note:note "Fichier shapefile téléchargé le 2026-10-15 (SHA-256 de l'archive : 80858bffcac50d5af43702fc83d2c0b591f81ed2ffb7854b70da06117e293ce3). 121 communes. Plonéour-Lanvern (INSEE 29174) n'y figure pas ; Plomeur, Saint-Jean-Trolimon, Plovan, Pouldreuzic, Pont-l'Abbé, Combrit, Loctudy, Penmarc'h, Guilvinec, Treffiagat et Plobannalec-Lesconil y figurent. Réserve : la liste date de 2019 ; un changement de statut est improbable mais n'a pas été recherché dans le décret 2004-311 ni dans les arrêtés plus récents. La description du jeu dit que le décret 2004-311 a retiré trois communes (Pont-de-Buis-lès-Quimerch, Saint-Martin-des-Champs, Clohars-Fouesnant) alors que deux d'entre elles figurent dans le fichier : à vérifier si l'une de ces communes devient pertinente." .
+
+# ── Zonage du PLU, règlement écrit et routes (import du 2026-10-19) ─────────
+
+src:apicarto-gpu-2026-10 a owl:NamedIndividual, src:JeuDeDonnees ;
+    prov:generatedAtTime "2026-10-19"^^xsd:date ;
+    src:dateDonnees "PLU de Plonéour-Lanvern, modification n°1 approuvée le 2026-03-05 (idurba 29174_PLU_20260305) ; PLU de Saint-Jean-Trolimon (idurba 29252_PLU_20220204)" ;
+    rdfs:label "APIcarto — Géoportail de l'urbanisme : zonage et prescriptions à moins de 800 m du pylône"@fr ;
+    dcat:accessURL "https://apicarto.ign.fr/api/gpu"^^xsd:anyURI ;
+    dcterms:publisher src:ign ; dcterms:license "Licence Ouverte 2.0" ;
+    src:niveauDePreuve src:primaire ;
+    note:note """Réponses brutes conservées dans `sources/gpu/` (empreintes SHA-256 dans `sources/SHA256SUMS`) : `zone-urba`, `prescription-surf`, `prescription-lin`, `prescription-pct`, `info-surf`, `info-lin`, `info-pct`, `secteur-cc`. Script : `tools/plu_gpu_fetch.py` puis `tools/plu_gpu.py`.
+**Réserve :** le Géoportail signale que « certains secteurs » de la modification n°1 ne sont pas encore exécutoires ; le secteur de la parcelle n'a pas été identifié comme concerné, mais la version opposable doit être confirmée en mairie. La zone Ub voisine appartient au PLU de Saint-Jean-Trolimon, dont le règlement n'a pas été lu.""" .
+
+src:bdtopo-routes-2026-10 a owl:NamedIndividual, src:JeuDeDonnees ;
+    prov:generatedAtTime "2026-10-19"^^xsd:date ;
+    src:dateDonnees "BD TOPO V3, millésime servi par la Géoplateforme au 2026-10-19" ;
+    rdfs:label "BD TOPO — tronçons de route à moins de 800 m du pylône (WFS Géoplateforme)"@fr ;
+    dcat:accessURL "https://data.geopf.fr/wfs/ows"^^xsd:anyURI ;
+    dcterms:publisher src:ign ; dcterms:license "Licence Ouverte 2.0" ;
+    src:niveauDePreuve src:primaire ;
+    note:note "Réponse brute : `sources/gpu/routes_bdtopo.geojson`. Sert à tracer la bande de recul de 5 m depuis les voies ; la limite du domaine public (alignement) n'y figure pas : le tracé est approximatif." .
+
+src:plu-reglement-ecrit-2026-03 a owl:NamedIndividual, src:DocumentSource ;
+    prov:generatedAtTime "2026-10-19"^^xsd:date ;
+    rdfs:label "PLU de Plonéour-Lanvern — règlement écrit (modification n°1, 2026-03-05), 125 pages"@fr ;
+    dcat:accessURL "https://www.geoportail-urbanisme.gouv.fr/api/document/aa270f29891b961a46f169e2e5a7996b/files/29174_reglement_20260305.pdf"^^xsd:anyURI ;
+    src:niveauDePreuve src:primaire ;
+    note:note "PDF de 1 968 421 octets, SHA-256 aa6ca09a4895a7d555179607324dfe77d9d41fdecbfc74d0ff0a0b3523d47b99. **Le PDF n'a pas de couche texte exploitable** (polices encodées) : les articles de la zone A (p. 93-103) et des dispositions générales (p. 13-15) ont été lus par reconnaissance optique de caractères (tesseract) puis relus. Les valeurs (3 m, 5 m, 9 m, 2 m, 10 m) et les citations sont à contrôler sur le PDF officiel avant tout usage dans un recours." .
+
+src:plu-reglement-graphique-2026-03 a owl:NamedIndividual, src:DocumentSource ;
+    prov:generatedAtTime "2026-10-19"^^xsd:date ;
+    rdfs:label "PLU de Plonéour-Lanvern — règlement graphique (6 planches A0 au 1/5000), 2026-03-05"@fr ;
+    dcat:accessURL "https://www.geoportail-urbanisme.gouv.fr/api/document/aa270f29891b961a46f169e2e5a7996b/files/29174_reglement_graphique_20260305.pdf"^^xsd:anyURI ;
+    src:niveauDePreuve src:primaire ;
+    note:note "PDF de 46 592 072 octets, SHA-256 cc25fdc2ba1878eb3ecda850974b327275daa44cbe61ffd76035fa61645544ef (non versionné : trop volumineux). La parcelle YX 26 est sur la planche 6 (extrémité sud-est du territoire). Les géométries affichées sur la carte viennent de l'API du Géoportail, pas de ce PDF." .

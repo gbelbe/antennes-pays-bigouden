@@ -114,10 +114,11 @@ async function carte(host = $("#app")) {
       <button class="chip" data-eng="google">Google Maps (satellite)</button>
       <a class="chip info" href="${gm(c)}" target="_blank" rel="noopener">Ouvrir dans Google Maps ↗</a>
       <a class="chip info" href="${gsv(c)}" target="_blank" rel="noopener">Street View ↗</a>
+      <button class="chip" id="zoomplu" title="Zoome sur la parcelle et affiche le zonage du PLU, les prescriptions et les bandes de règlement">Zonage du PLU autour du pylône</button>
     </div>
     <div id="mapzone"></div>
     <div class="legend" id="legend"></div>
-    <p class="muted small">Positions des supports arrondies par l'ANFR (≈ 30 m). Le point rouge est le centre de la parcelle ; l'opérateur place le pylône à son angle, côté route, à environ 64 m de là. Propriétaire d'un support = code du registre ANFR (fichier du 8 octobre 2026), à lire comme un plancher pour Phoenix. Seuls les supports de Phoenix du Finistère sont tracés, avec les supports existants à moins de 10 km du site.</p>`;
+    <p class="muted small">Positions des supports arrondies par l'ANFR (≈ 30 m). Le point rouge est le centre de la parcelle ; l'opérateur place le pylône à son angle, côté route, à environ 64 m de là (point noir). Propriétaire d'un support = code du registre ANFR (fichier du 8 octobre 2026), à lire comme un plancher pour Phoenix. Seuls les supports de Phoenix du Finistère sont tracés, avec les supports existants à moins de 10 km du site.</p>`;
   const show = (eng) => {
     document.querySelectorAll("[data-eng]").forEach((b) => b.classList.toggle("sel", b.dataset.eng === eng));
     if (LMAP) { LMAP.remove(); LMAP = null; }
@@ -128,7 +129,9 @@ async function carte(host = $("#app")) {
       $("#mapzone").innerHTML = `<iframe class="gframe" src="${esc(src)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Maps"></iframe>
         <p class="muted small">${meta.google_maps_key ? "Google Maps Embed API." : "Intégration Google Maps sans clé (vue du site seulement ; pour y superposer les antennes, utilisez la carte interactive)."}</p>`;
       $("#legend").innerHTML = "";
+      $("#zoomplu").disabled = true;
     } else {
+      $("#zoomplu").disabled = false;
       $("#mapzone").innerHTML = `<div id="map" role="application" aria-label="Carte interactive"></div>`;
       drawMap(data, cover);
     }
@@ -150,13 +153,51 @@ function drawMap(data, cover) {
       f.status && `<b>Statut :</b> ${esc(f.status)}`, f.height && `<b>Hauteur :</b> ${esc(f.height)} m`, f.anfr && `<b>Support ANFR :</b> ${esc(f.anfr)}`].filter(Boolean);
     return `<strong>${esc(f.label)}</strong><br>${rows.join("<br>")}<br><a href="#/e/${encodeURIComponent(f.id)}">Fiche</a> · <a target="_blank" rel="noopener" href="${gm(ll)}">Google Maps</a> · <a target="_blank" rel="noopener" href="${gsv(ll)}">Street View</a>`;
   };
-  for (const f of data.features) {
+  // couches du zonage : volets séparés pour que les bandes restent au-dessus des zones
+  LMAP.createPane("zonage"); LMAP.getPane("zonage").style.zIndex = 410;
+  LMAP.createPane("presc"); LMAP.getPane("presc").style.zIndex = 420;
+  LMAP.createPane("bandes"); LMAP.getPane("bandes").style.zIndex = 430;
+  groups.zonage = L.layerGroup(); groups.presc = L.layerGroup(); groups.bandes = L.layerGroup(); groups.pylone = L.layerGroup();
+  const ZC = { "skt:zone-A": ["#b8860b", "#f2c230", "Zone agricole (A)"], "skt:zone-N": ["#1f7a3a", "#4cc16f", "Zone naturelle (N)"], "skt:zone-U": ["#b3123f", "#f0627f", "Zone urbaine (U)"], "skt:zone-AU": ["#c2410c", "#fb923c", "Zone à urbaniser (AU)"] };
+  const PC = { "skt:haie-talus": ["#14532d", "Haie ou talus à préserver"], "skt:zone-humide": ["#0066ff", "Zone humide protégée"], "skt:ebc": ["#064e3b", "Espace boisé classé"], "skt:cours-eau": ["#06b6d4", "Cours d'eau protégé"], "skt:element-patrimoine-local": ["#c026d3", "Élément de patrimoine local"], "skt:perimetre-abords": ["#7a5af8", "Périmètre des abords"] };
+  const BC = { "dos:bande-recul-limites-3m": ["#f97316", "Recul de 3 m en limite de parcelle"], "dos:bande-recul-voie-5m": ["#dc2626", "Recul de 5 m depuis les routes (approx.)"], "dos:bande-29174-cours-eau-1-10m": ["#0891b2", "Bande de 10 m le long du cours d'eau"], "dos:rayon-hauteur-pylone": ["#7c3aed", "Rayon = hauteur du pylône, 32,65 m (indicatif)"] };
+  const APP = { oui: "s'applique", non: "ne s'applique pas", "a-verifier": "à vérifier" };
+  const fmtd = (n) => `${n.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} m`;
+  const zonePopup = (f) => {
+    const rules = (f.rules || []).map((r) => `<li><a href="#/e/${encodeURIComponent(r.id)}">${esc(r.label.replace(/^PLU Plonéour-Lanvern — /, ""))}</a> <span class="muted">(${esc(APP[r.app] || r.app)}${r.value != null ? `, ${r.value} ${esc(r.unit)}` : ""})</span></li>`).join("");
+    return `<strong>${esc(f.label)}</strong><br>${f.d != null ? `<b>Distance au pylône :</b> ${fmtd(f.d)}<br>` : ""}${f.derived ? `<em>Tracé calculé à partir de la règle${f.radius ? ` (${f.radius} m)` : ""}</em><br>` : ""}${f.text ? `<span class="small">${esc(f.text.slice(0, 220))}${f.text.length > 220 ? "…" : ""}</span><br>` : ""}${rules ? `<b>Règles :</b><ul class="small" style="margin:2px 0 4px 16px;padding:0">${rules}</ul>` : ""}<a href="#/e/${encodeURIComponent(f.id)}">Fiche</a>`;
+  };
+  const drawZone = (f) => {
+    const bande = f.ztype === "skt:bande-de-regle";
+    const zc = ZC[f.ztype], pc = PC[f.ztype];
+    const tip = `${f.ztype_label || ""}`;
     if (f.geom.type === "Point") {
+      return L.circleMarker(f.geom.ll, { pane: "presc", radius: 6, color: "#fff", weight: 1.5, fillColor: (pc || ["#a21caf"])[0], fillOpacity: 0.95 }).bindPopup(zonePopup(f)).bindTooltip(esc(f.label));
+    }
+    if (f.geom.type === "Line") {
+      return L.polyline(f.geom.pts, { pane: "presc", color: (pc || ["#1b7f2a"])[0], weight: f.ztype === "skt:cours-eau" ? 4 : 4, opacity: 0.95, dashArray: f.ztype === "skt:cours-eau" ? "8 5" : null }).bindPopup(zonePopup(f)).bindTooltip(esc(tip));
+    }
+    const shape = f.geom.polys || f.geom.rings;
+    if (bande) {
+      const ind = f.id === "dos:rayon-hauteur-pylone", bc = (BC[f.id] || ["#d92d20"])[0];
+      return L.polygon(shape, { pane: "bandes", color: bc, weight: 2, dashArray: ind ? "6 4" : null, fillColor: bc, fillOpacity: 0.3 }).bindPopup(zonePopup(f)).bindTooltip(esc(f.label));
+    }
+    if (zc) return L.polygon(shape, { pane: "zonage", color: zc[0], weight: 1.5, fillColor: zc[1], fillOpacity: 0.4 }).bindPopup(zonePopup(f)).bindTooltip(esc(f.label));
+    return L.polygon(shape, { pane: "presc", color: (pc || ["#667085"])[0], weight: 2, fillColor: (pc || ["#667085"])[0], fillOpacity: 0.45 }).bindPopup(zonePopup(f)).bindTooltip(esc(f.label));
+  };
+  for (const f of data.features) {
+    if (f.kind === "zone") {
+      const bande = f.ztype === "skt:bande-de-regle";
+      (bande ? groups.bandes : ZC[f.ztype] ? groups.zonage : groups.presc).addLayer(drawZone(f));
+    } else if (f.kind === "pylone") {
+      groups.pylone.addLayer(L.circleMarker(f.geom.ll, { radius: 6, color: "#fff", weight: 2, fillColor: "#111827", fillOpacity: 1 })
+        .bindPopup(`<strong>${esc(f.label)}</strong><br><span class="small">Position convertie des coordonnées Lambert II étendu du dossier d'information (quelques mètres d'incertitude).</span><br><a href="#/e/${encodeURIComponent(f.id)}">Fiche</a>`));
+    } else if (f.geom.type === "Point") {
       const kind = f.kind === "projet" ? "projet" : f.kind === "phoenix" ? "phoenix" : (f.operators || []).includes("Bouygues Telecom") ? "bouygues" : "support";
       const m = L.circleMarker(f.geom.ll, { radius: kind === "projet" ? 10 : kind === "support" ? 5 : 6, color: "#fff", weight: 1.5, fillColor: colors[kind], fillOpacity: 0.95 }).bindPopup(popup(f));
       groups[kind].addLayer(m);
     } else {
-      const poly = L.polygon(f.geom.rings, { color: "#7a5af8", weight: 2, fillOpacity: 0.12 }).bindPopup(`<strong>${esc(f.label)}</strong><br><a href="#/e/${encodeURIComponent(f.id)}">Fiche</a>`);
+      const poly = L.polygon(f.geom.polys || f.geom.rings, { color: "#7a5af8", weight: 2, fillOpacity: 0.12 }).bindPopup(`<strong>${esc(f.label)}</strong><br><a href="#/e/${encodeURIComponent(f.id)}">Fiche</a>`);
       groups.autres.addLayer(poly);
     }
   }
@@ -165,16 +206,27 @@ function drawMap(data, cover) {
   const covColor = { "Très bonne couverture": "#12b76a", "Bonne couverture": "#f79009", "Couverture limitée": "#f04438" };
   for (const z of cover) {
     covLayers[z.label] ||= L.layerGroup();
-    L.polygon(z.geom.rings, { color: covColor[z.label.split(" — ")[0]] || "#667085", weight: 1, fillOpacity: 0.12, interactive: false }).addTo(covLayers[z.label]);
+    L.polygon(z.geom.polys || z.geom.rings, { color: covColor[z.label.split(" — ")[0]] || "#667085", weight: 1, fillOpacity: 0.12, interactive: false }).addTo(covLayers[z.label]);
   }
   const overlays = {
     "Site projeté": groups.projet, "Supports de Phoenix": groups.phoenix, "Autres supports hébergeant Bouygues": groups.bouygues,
-    "Autres supports": groups.support, "Parcelles et zones": groups.autres, "Cercles 100 m · 500 m · 1 km · 2 km": groups.rings, ...covLayers,
+    "Autres supports": groups.support, "Parcelles et zones": groups.autres,
+    "PLU : zonage A / N / U": groups.zonage, "PLU : haies, zones humides, EBC, cours d'eau": groups.presc,
+    "Bandes de règlement (reculs 3 m, 5 m, rayon du pylône)": groups.bandes, "Pylône selon le dossier d'information": groups.pylone, "Cercles 100 m · 500 m · 1 km · 2 km": groups.rings, ...covLayers,
   };
   L.control.layers({ "OpenStreetMap": osm, "Orthophoto IGN": ign }, overlays, { collapsed: false }).addTo(LMAP);
-  ["projet", "phoenix", "bouygues", "support", "autres"].forEach((k) => groups[k].addTo(LMAP));
+  ["projet", "phoenix", "bouygues", "support", "autres", "pylone"].forEach((k) => groups[k].addTo(LMAP));
+  const pyl = data.features.find((f) => f.kind === "pylone");
+  $("#zoomplu").onclick = () => {
+    ["zonage", "presc", "bandes"].forEach((k) => groups[k].addTo(LMAP));
+    const ll = pyl ? pyl.geom.ll : c;
+    LMAP.setView(ll, 17);
+    $("#legend").innerHTML = zoneLegend();
+  };
   groups.projet.eachLayer((l) => l.openPopup());
   LMAP.setView(c, 14);
+  const zoneLegend = () => [...Object.values(ZC).map(([l, f, t]) => [f, t, l]), ...Object.values(PC).slice(0, 5).map(([c, t]) => [c, t]), ...Object.values(BC).map(([c, t]) => [c, t]), ["#111827", "Pylône (dossier d'information)"]]
+    .map((x) => `<span><i class="dot" style="background:${x[0]}"></i>${x[1]}</span>`).join("");
   $("#legend").innerHTML = [["projet", "Site projeté"], ["phoenix", "Supports de Phoenix"], ["bouygues", "Hébergent Bouygues Telecom"], ["support", "Autres supports"]]
     .map(([k, t]) => `<span><i class="dot" style="background:${colors[k]}"></i>${t}</span>`).join("");
 }
